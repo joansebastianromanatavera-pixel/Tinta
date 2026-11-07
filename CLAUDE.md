@@ -112,8 +112,8 @@ app/
 ## Diseño
 
 - Inspirado en Apple. **Monocromático, negro primero**: grises y blanco, sin color de acento.
-- **Escena**: fondo negro, luz blanca suave desde arriba a la derecha y grano fino tipo arena (`grain.js`, pintado una vez en canvas). Casi estática: nada sigue al mouse.
-- **Liquid glass** (`styles/glass.css` + `glass.js`): **el mouse es la luz y el vidrio solo la refleja**. Desenfoque, brillo, grosor, borde que brilla del lado de la luz (más cuanto más cerca) y reflejo que se desliza hacia ella. Resortes con amortiguación crítica.
+- **Escena: arena viva** (`sand.js`, shader WebGL, un grano por píxel físico): el mouse es una lámpara que ilumina los granos con luz rasante y destellos, y al moverlo cepilla la arena, que vuelve a asentarse. Solo renderiza mientras algo cambia. Respaldo estático en CSS (`grain.js`) sin WebGL. La sensación buscada: la textura del papel de un libro desde el primer momento.
+- **Liquid glass** (`styles/glass.css` + `glass.js`): **el mouse es la luz y el vidrio solo la refleja**. Vidrio transparente (desenfoque leve), bisel curvo que refleja la luz siguiendo bordes y esquinas, borde que brilla del lado de la luz (más cuanto más cerca) y reflejo que se desliza hacia ella. Resortes con amortiguación crítica.
 - **Prohibido**: inclinar, rebotar o desplazar elementos con el mouse (se probó y se descartó por recargado), y colores de acento.
 - No usar `clip-path` ni `mask` sobre elementos con `backdrop-filter`: WebKitGTK no recorta bien sus hijos compuestos.
 - Esquinas con curvatura continua, como en Apple.

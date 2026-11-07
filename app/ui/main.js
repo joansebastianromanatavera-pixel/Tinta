@@ -3,6 +3,7 @@ import "@fontsource-variable/literata";
 import { show, hide } from "./motion.js";
 import { initGlass } from "./glass.js";
 import { paintGrain } from "./grain.js";
+import { initSand } from "./sand.js";
 import { pipelinePhases, onFileDrop } from "./api.js";
 import { createActions } from "./components/actions.js";
 import { createDropOverlay } from "./components/drop-overlay.js";
@@ -48,6 +49,16 @@ async function backToStart() {
   busy = false;
 }
 
-paintGrain(document.getElementById("grain"));
+startScene();
 initGlass();
 show(hero, "flex");
+
+/** Living sand when WebGL is available; a static grain scene otherwise. */
+function startScene() {
+  const ambient = document.getElementById("ambient");
+  if (initSand(document.getElementById("sand"))) {
+    ambient.classList.add("ambient--live");
+  } else {
+    paintGrain(document.getElementById("grain"));
+  }
+}

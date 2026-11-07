@@ -288,23 +288,28 @@ Inspirado en las apps de Apple: claridad, deferencia y profundidad.
 
 Negro primero. Grises y blanco, sin color de acento: la jerarquía sale de la luz, la profundidad y el peso tipográfico. Los valores viven en `app/ui/styles/tokens.css`.
 
-### La escena
+### La escena: arena viva
 
-Fondo negro con una luz blanca suave que cae desde arriba a la derecha y un brillo tenue abajo a la izquierda. Todo está cubierto de **grano fino**, como arena blanca y negra. El grano se pinta una vez en un canvas, a un píxel físico por grano para que se vea nítido, con grises en curva de campana alrededor del gris medio. La escena casi no se mueve: una sola deriva muy lenta de la luz, y nada que siga al mouse.
+Fondo negro con una luz blanca suave que cae desde arriba a la derecha, cubierto de **grano fino como arena** (o como el papel de un libro). Un shader WebGL (`sand.js`) dibuja un grano por píxel físico, y cada grano tiene su propia altura e inclinación.
+
+- **El mouse es una lámpara** sostenida sobre la arena: los granos cercanos se iluminan con luz rasante y algunos destellan, como la textura del papel bajo una lámpara de lectura.
+- **Al mover el mouse lo cepillas:** los granos de su camino se apartan un poco y vuelven a asentarse mientras la estela se desvanece.
+- Solo se redibuja mientras algo cambia; después se detiene.
+- Si no hay WebGL, se usa una versión estática en CSS (`grain.js`).
 
 ### Liquid Glass: el mouse es la luz
 
-El vidrio no se mueve, no se inclina ni rebota. **El mouse es una fuente de luz y el vidrio solo la refleja:**
+El vidrio es **transparente**: se ve la arena a través de él. No se mueve, no se inclina ni rebota; solo refleja la luz del mouse:
 
 | Capa | Efecto |
 |---|---|
-| Desenfoque | Suaviza la escena y su grano: el vidrio se ve pulido sobre un fondo de arena |
-| Brillo | Una banda tenue más intensa arriba, como un vidrio grueso |
+| Desenfoque | Muy leve: el vidrio es claro |
 | Grosor | Luz atrapada a lo largo de los bordes |
-| Borde | Una línea de 1 px que brilla del lado donde está la luz, y con más fuerza cuanto más cerca está |
+| Bisel curvo | Una banda suave de luz que sigue la curvatura de los bordes y las esquinas, más intensa del lado de la luz, con un reflejo débil del lado opuesto |
+| Borde | Una línea de 1 px que brilla del lado de la luz, más cuanto más cerca está |
 | Reflejo | Un reflejo suave que se desliza hacia la luz |
 
-La luz se mueve con resortes con amortiguación crítica: llega suave y nunca se pasa de largo. Si la luz se aleja, el reflejo se apaga poco a poco.
+La luz se mueve con resortes con amortiguación crítica: llega suave y nunca se pasa de largo.
 
 ### Forma
 

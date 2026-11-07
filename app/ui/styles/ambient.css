@@ -11,6 +11,25 @@
   background: var(--black);
 }
 
+/* Living sand (WebGL, see sand.js). The CSS lights and grain below are the
+   fallback when WebGL is unavailable. */
+.sand {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: none;
+}
+
+.ambient--live .sand {
+  display: block;
+}
+
+.ambient--live .light,
+.ambient--live .grain {
+  display: none;
+}
+
 .light {
   position: absolute;
   border-radius: 50%;

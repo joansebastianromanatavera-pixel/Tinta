@@ -46,6 +46,12 @@ class GlassSurface {
     this.light.className = "glass__light";
     this.light.setAttribute("aria-hidden", "true");
     element.prepend(this.light);
+    if (element.classList.contains("glass")) {
+      const bevel = document.createElement("span");
+      bevel.className = "glass__bevel";
+      bevel.setAttribute("aria-hidden", "true");
+      element.prepend(bevel);
+    }
     this.x = new Spring(0, POSITION_STIFFNESS);
     this.y = new Spring(0, POSITION_STIFFNESS);
     this.intensity = new Spring(0, INTENSITY_STIFFNESS);
