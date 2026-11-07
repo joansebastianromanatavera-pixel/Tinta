@@ -5,7 +5,7 @@
 // subtle 3D tilt. All motion runs through critically damped springs in one
 // requestAnimationFrame loop that sleeps when everything has settled.
 
-const TILT_MAX_DEG = 2.2;
+const TILT_MAX_DEG = 4;
 const PERSPECTIVE_PX = 1100;
 const HOVER_MARGIN_PX = 120;
 const LIGHT_IDLE = 0.35;
@@ -52,6 +52,10 @@ class GlassSurface {
     this.tiltX = new Spring(0, 120, 18);
     this.tiltY = new Spring(0, 120, 18);
     this.springs = [this.x, this.y, this.intensity, this.tiltX, this.tiltY];
+    // Children marked [data-depth] float above the glass and shift with the
+    // tilt, so the content reads as layered inside a thick slab.
+    this.layers = this.tilts ? [...element.querySelectorAll("[data-depth]")] : [];
+
   }
 
   aim(pointerX, pointerY) {
@@ -95,9 +99,14 @@ class GlassSurface {
   render() {
     this.light.style.transform = `translate3d(${this.x.value}px, ${this.y.value}px, 0)`;
     this.light.style.opacity = String(clamp(this.intensity.value, 0, 1));
-    if (this.tilts) {
-      this.element.style.transform =
-        `perspective(${PERSPECTIVE_PX}px) rotateX(${this.tiltX.value}deg) rotateY(${this.tiltY.value}deg)`;
+    if (!this.tilts) return;
+    this.element.style.transform =
+      `perspective(${PERSPECTIVE_PX}px) rotateX(${this.tiltX.value}deg) rotateY(${this.tiltY.value}deg)`;
+    const shiftX = this.tiltY.value / TILT_MAX_DEG;
+    const shiftY = -this.tiltX.value / TILT_MAX_DEG;
+    for (const layer of this.layers) {
+      const depth = Number(layer.dataset.depth);
+      layer.style.transform = `translate3d(${shiftX * depth}px, ${shiftY * depth}px, 0)`;
     }
   }
 }
@@ -185,4 +194,93 @@ export function initAmbientParallax(scene, depthPx = 18) {
     },
     { passive: true },
   );
+}
+
+const GLOW_VISIBLE = 1;
+const AMBIENT_OVERSCAN = 0.1;
+
+/** A light behind the glass that follows the pointer, so every glass
+ *  surface glows where the user is looking. */
+export function initPointerGlow(glow) {
+  if (!glow || reducedMotion.matches) return;
+  const x = new Spring(window.innerWidth / 2, 60, 16);
+  const y = new Spring(window.innerHeight / 2, 60, 16);
+  const strength = new Spring(0, 40, 14);
+  runWhileMoving([x, y, strength], () => {
+    const offsetX = window.innerWidth * AMBIENT_OVERSCAN;
+    const offsetY = window.innerHeight * AMBIENT_OVERSCAN;
+    glow.style.transform = `translate3d(${x.value + offsetX}px, ${y.value + offsetY}px, 0)`;
+    glow.style.opacity = String(clamp(strength.value, 0, 1));
+  }, (wake) => {
+    window.addEventListener("pointermove", (event) => {
+      x.target = event.clientX;
+      y.target = event.clientY;
+      strength.target = GLOW_VISIBLE;
+      wake();
+    }, { passive: true });
+    document.documentElement.addEventListener("pointerleave", () => {
+      strength.target = 0;
+      wake();
+    });
+  });
+}
+
+const DROPLET_PARALLAX_PX = 26;
+const DROPLET_REPEL_RADIUS_PX = 240;
+const DROPLET_REPEL_PX = 46;
+
+/** Glass droplets drift against the pointer (parallax) and flee from it
+ *  when it comes close, like drops on a surface. */
+export function initDroplets(anchors) {
+  if (reducedMotion.matches) return;
+  const droplets = [...anchors].map((anchor) => ({
+    anchor,
+    depth: Number(anchor.dataset.droplet),
+    x: new Spring(0, 70, 11),
+    y: new Spring(0, 70, 11),
+  }));
+  const springs = droplets.flatMap((d) => [d.x, d.y]);
+
+  runWhileMoving(springs, () => {
+    for (const d of droplets) {
+      d.anchor.style.transform = `translate3d(${d.x.value}px, ${d.y.value}px, 0)`;
+    }
+  }, (wake) => {
+    window.addEventListener("pointermove", (event) => {
+      const normX = (event.clientX / window.innerWidth) * 2 - 1;
+      const normY = (event.clientY / window.innerHeight) * 2 - 1;
+      for (const d of droplets) {
+        const rect = d.anchor.getBoundingClientRect();
+        const centerX = rect.left + rect.width / 2 - d.x.value;
+        const centerY = rect.top + rect.height / 2 - d.y.value;
+        const dx = centerX - event.clientX;
+        const dy = centerY - event.clientY;
+        const distance = Math.hypot(dx, dy) || 1;
+        const push = Math.max(0, 1 - distance / DROPLET_REPEL_RADIUS_PX) * DROPLET_REPEL_PX;
+        d.x.target = -normX * DROPLET_PARALLAX_PX * d.depth + (dx / distance) * push * d.depth;
+        d.y.target = -normY * DROPLET_PARALLAX_PX * d.depth + (dy / distance) * push * d.depth;
+      }
+      wake();
+    }, { passive: true });
+  });
+}
+
+/** Runs `render` every frame while any spring moves; sleeps otherwise.
+ *  `subscribe(wake)` attaches the listeners that change spring targets. */
+function runWhileMoving(springs, render, subscribe) {
+  let frame = 0;
+  let lastTime = 0;
+  const tick = (time) => {
+    const dt = Math.min((time - lastTime) / 1000, MAX_FRAME_S);
+    lastTime = time;
+    springs.forEach((spring) => spring.step(dt));
+    render();
+    frame = springs.every((spring) => spring.settled) ? 0 : requestAnimationFrame(tick);
+  };
+  subscribe(() => {
+    if (frame) return;
+    lastTime = performance.now();
+    frame = requestAnimationFrame(tick);
+  });
+  render();
 }

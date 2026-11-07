@@ -56,12 +56,40 @@ input {
 
 /* Empty state */
 .hero-shell {
+  position: relative;
   display: flex;
 }
 
 .panel {
+  width: var(--panel-width);
+  max-width: calc(100vw - var(--space-6) * 2);
   border-radius: var(--radius-xl);
-  padding: var(--space-7) var(--space-8) var(--space-6);
+  padding: var(--space-7) var(--space-7) var(--space-6);
+}
+
+/* Short windows: tighten the hero so it always fits without scrolling. */
+@media (max-height: 700px) {
+  .panel {
+    padding: var(--space-5) var(--space-6);
+  }
+
+  .hero {
+    gap: var(--space-3);
+  }
+
+  .device {
+    width: 72px;
+    height: 98px;
+    margin-bottom: 0;
+  }
+
+  .eyebrow {
+    display: none;
+  }
+
+  .actions {
+    margin-top: var(--space-2);
+  }
 }
 
 .hero {
@@ -69,25 +97,63 @@ input {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  gap: var(--space-5);
+  gap: var(--space-4);
 }
 
 .device {
-  width: 112px;
-  height: 152px;
-  color: var(--text);
+  width: 104px;
+  height: 142px;
+  margin-bottom: var(--space-2);
+  filter: drop-shadow(0 14px 22px rgb(0 6 30 / 0.45));
+  will-change: transform;
+}
+
+.eyebrow {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--foam-200);
+  opacity: 0.85;
 }
 
 .hero h1 {
   font-size: var(--text-xl);
   font-weight: var(--weight-semibold);
   letter-spacing: var(--tracking-tight);
+  line-height: 1.1;
+  background: linear-gradient(180deg, #ffffff 30%, var(--foam-200));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .hero p {
   color: var(--text-secondary);
   font-size: var(--text-m);
-  margin-top: calc(var(--space-2) * -1);
+  max-width: 34ch;
+  line-height: 1.5;
+}
+
+.formats {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-2);
+  max-width: 380px;
+  margin-top: var(--space-1);
+}
+
+.chip {
+  height: 26px;
+  padding: 0 var(--space-3);
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  align-items: center;
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  letter-spacing: 0.04em;
+  color: var(--foam-100);
 }
 
 /* Actions */
@@ -96,7 +162,7 @@ input {
   display: flex;
   gap: var(--space-3);
   height: var(--control-height);
-  margin-top: var(--space-2);
+  margin-top: var(--space-4);
 }
 
 .button {
@@ -110,6 +176,7 @@ input {
   display: inline-flex;
   align-items: center;
   gap: var(--space-2);
+  z-index: 1;
   will-change: transform;
 }
 
@@ -152,8 +219,8 @@ input {
   height: 28px;
   border: 0;
   border-radius: var(--radius-pill);
-  background: var(--fill-primary);
-  color: var(--on-primary);
+  background: var(--pill-primary-fill);
+  color: var(--pill-primary-text);
   display: grid;
   place-items: center;
   flex: none;
@@ -180,7 +247,7 @@ input {
   width: 120px;
   height: 120px;
   border-radius: 50%;
-  border: 1.5px dashed var(--text-tertiary);
+  border: 1.5px dashed var(--foam-200);
   display: grid;
   place-items: center;
 }
@@ -219,12 +286,12 @@ input {
   width: 44px;
   height: 60px;
   border-radius: 6px 10px 10px 6px;
-  background: linear-gradient(135deg, var(--grey-700), var(--grey-900));
-  box-shadow: var(--shadow-2), inset 3px 0 0 rgb(255 255 255 / 0.08);
+  background: linear-gradient(135deg, var(--blue-500), var(--navy-800));
+  box-shadow: var(--shadow-2), inset 3px 0 0 rgb(255 255 255 / 0.18), inset 0 1px 0 rgb(255 255 255 / 0.3);
   flex: none;
   display: grid;
   place-items: center;
-  color: var(--grey-200);
+  color: var(--foam-100);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
   letter-spacing: 0.04em;
@@ -250,7 +317,7 @@ input {
 }
 
 .card__close {
-  background: var(--pill-fill);
+  background: rgb(255 255 255 / 0.1);
   color: var(--text-secondary);
 }
 
@@ -275,7 +342,8 @@ input {
   width: 6px;
   height: 6px;
   border-radius: 50%;
-  background: var(--text-tertiary);
+  background: var(--sea-300);
+  box-shadow: 0 0 8px var(--sea-300);
   flex: none;
 }
 

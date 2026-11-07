@@ -4,7 +4,7 @@
 
 **Convierte cualquier libro en un ebook que en tu Kindle se ve como uno comprado, y llega solo a tu dispositivo.**
 
-Rust · Tauri · Linux, Windows y macOS · Monocromático · Cada detalle importa
+Rust · Tauri · Linux, Windows y macOS · Liquid Glass · Cada detalle importa
 
 ![Estado](https://img.shields.io/badge/estado-en%20desarrollo-lightgrey)
 ![Rust](https://img.shields.io/badge/rust-stable-black)
@@ -284,9 +284,17 @@ npm run tauri build             # instaladores para el sistema actual
 
 Inspirado en las apps de Apple: claridad, deferencia y profundidad.
 
-### Paleta monocromática
+### Paleta "Abismo"
 
-Diez tonos de gris, sin color de acento. La jerarquía sale de la profundidad, las sombras y el peso tipográfico. Hay modo claro y oscuro, que siguen al sistema.
+Del azul marino profundo al azul mar, con luz cian. Un solo tema oscuro y saturado: el vidrio necesita una escena con color detrás para refractarla y reflejarla.
+
+| Token | Color |
+|---|---|
+| `--abyss` | `#010617` |
+| `--navy-900` / `--navy-800` / `--navy-700` | `#031034` / `#061d5e` / `#0a2f9c` |
+| `--blue-600` / `--blue-500` | `#0f4fe0` / `#2a72ff` |
+| `--sea-400` / `--sea-300` | `#12a8ff` / `#3fd0ff` |
+| `--foam-200` / `--foam-100` | `#a9ecff` / `#e8f8ff` |
 
 ### Liquid Glass
 
@@ -295,13 +303,21 @@ Cada superficie de vidrio se construye en capas, y todas reaccionan al puntero:
 | Capa | Efecto |
 |---|---|
 | Fondo | Desenfoque y saturación de la escena que hay detrás |
-| Cuerpo | Un velo lechoso, más denso abajo, como el vidrio real |
+| Brillo curvo | Una banda de luz que hace que el panel se lea como vidrio grueso |
 | Grosor | Brillo interior en los bordes: la luz atrapada en el vidrio |
 | Borde | Una línea de 1 px iluminada desde donde está el puntero |
+| Dispersión | Un filo espectral tenue (cian, violeta, rosa) en el lado opuesto a la luz |
 | Reflejo | Un brillo especular que sigue al puntero |
-| Inclinación | Los paneles se inclinan hasta 2° en 3D hacia el puntero |
+| Inclinación | Los paneles se inclinan hasta 4° en 3D hacia el puntero, y su contenido se desplaza por capas de profundidad |
 
-Detrás del vidrio hay una escena ambiental monocromática: formas de luz que se mueven lentamente, un arco fino y grano de película. Se desplaza levemente con el puntero (paralaje). Todo el movimiento usa resortes en un único bucle de animación que se detiene cuando todo está en reposo.
+**Interacción:**
+
+- **Lente líquida:** una gota de vidrio fluye entre los botones, se estira al viajar y se posa sobre el que tiene el puntero.
+- **Botones magnéticos:** se inclinan hacia el puntero.
+- **Luz bajo el vidrio:** un resplandor cian sigue al puntero por detrás, así que el vidrio se ilumina donde miras.
+- **Gotas de vidrio:** flotan alrededor, se desplazan en paralaje y huyen del puntero cuando se acerca.
+
+**Escena detrás del vidrio:** un océano desenfocado de azul marino, azul rey y cian, con anillos de luz que respiran y grano de película. Todo el movimiento usa resortes, y los bucles se detienen cuando todo está en reposo.
 
 ### Forma
 
@@ -394,7 +410,7 @@ Se usa [Conventional Commits](https://www.conventionalcommits.org/): `feat(core)
   - [x] Modelo `Book` y pipeline por fases
   - [x] Limpieza tipográfica
   - [x] Perfiles de modelos Kindle
-  - [x] Tokens de diseño monocromáticos
+  - [x] Tokens de diseño y liquid glass
 - [ ] **Iteración 1: PDF → AZW3**
   - [ ] Extracción con pdfium
   - [ ] Estructura e índice de dos niveles

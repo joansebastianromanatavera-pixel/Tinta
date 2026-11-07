@@ -111,8 +111,9 @@ app/
 
 ## Diseño
 
-- Inspirado en Apple. **Paleta monocromática** de 10 grises, sin color de acento; la jerarquía sale de la profundidad, las sombras y el peso tipográfico.
-- **Liquid glass** (`styles/glass.css` + `glass.js`): fondo desenfocado, cuerpo lechoso, grosor, borde iluminado desde el puntero, reflejo especular que lo sigue e inclinación 3D de hasta 2° en los paneles. Detrás hay una escena ambiental (`styles/ambient.css`) para que el vidrio tenga algo que refractar.
+- Inspirado en Apple. **Paleta "Abismo"**: azul marino profundo a azul mar con luz cian, un solo tema (tokens en `tokens.css`).
+- **Liquid glass** (`styles/glass.css` + `glass.js`): fondo desenfocado, cuerpo lechoso, grosor, borde iluminado desde el puntero, brillo curvo, dispersión espectral, reflejo especular que lo sigue e inclinación 3D de hasta 4° con capas de profundidad (`data-depth`). Lente líquida entre botones, botones magnéticos, luz cian bajo el vidrio que sigue al puntero y gotas de vidrio que huyen de él. Detrás hay una escena ambiental (`styles/ambient.css`) para que el vidrio tenga algo que refractar.
+- No usar `clip-path` ni `mask` sobre elementos con `backdrop-filter`: WebKitGTK no recorta bien sus hijos compuestos (se probó con una esquina de página doblada y se descartó).
 - Esquinas con curvatura continua, como en Apple.
 - Tipografía Inter en la interfaz y Literata en la vista previa del libro.
 - Todos los valores visuales viven en `app/ui/styles/tokens.css`; ningún componente usa valores sueltos.

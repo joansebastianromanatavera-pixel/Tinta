@@ -1,9 +1,13 @@
 // The two primary actions: Insertar (file) and Enlace (link). The Enlace
 // button morphs into a text field in place.
+import { animate } from "motion";
 import { move, springs, shake, pressable } from "../motion.js";
 import { pickBookFile } from "../api.js";
 
 const ALLOWED_PROTOCOLS = ["http:", "https:"];
+const LENS_INSET_PX = 4;
+const MAGNET_STRENGTH = 0.18;
+const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
 
 export function parseBookUrl(raw) {
   const value = raw.trim();
@@ -27,6 +31,8 @@ export function createActions({ onFile, onLink }) {
   let fieldOpen = false;
 
   buttons.forEach(pressable);
+  buttons.forEach(magnetic);
+  const lens = createLens(document.getElementById("lens"), buttons);
 
   insert.addEventListener("click", async () => {
     const path = await pickBookFile();
@@ -57,6 +63,7 @@ export function createActions({ onFile, onLink }) {
   async function openField() {
     if (fieldOpen) return;
     fieldOpen = true;
+    lens.hide();
     buttons.forEach((b) => move(b, { opacity: 0, scale: 0.9 }, springs.snappy));
     buttons.forEach((b) => (b.style.pointerEvents = "none"));
     field.style.display = "flex";
@@ -77,4 +84,47 @@ export function createActions({ onFile, onLink }) {
   }
 
   return { reset: closeField };
+}
+
+/** Buttons lean toward the pointer while it is over them. */
+function magnetic(button) {
+  if (reducedMotion.matches) return;
+  button.addEventListener("pointermove", (event) => {
+    const rect = button.getBoundingClientRect();
+    const x = (event.clientX - rect.left - rect.width / 2) * MAGNET_STRENGTH;
+    const y = (event.clientY - rect.top - rect.height / 2) * MAGNET_STRENGTH;
+    animate(button, { x, y }, springs.snappy);
+  });
+  button.addEventListener("pointerleave", () => animate(button, { x: 0, y: 0 }, springs.bouncy));
+}
+
+/** A single drop of glass that flows to whichever action is hovered,
+ *  squashing as it travels like liquid. */
+function createLens(lens, targets) {
+  let visible = false;
+
+  const flowTo = (target) => {
+    const x = target.offsetLeft - LENS_INSET_PX;
+    const width = target.offsetWidth + LENS_INSET_PX * 2;
+    if (!visible) {
+      visible = true;
+      lens.style.width = `${width}px`;
+      animate(lens, { x, opacity: [0, 1], scale: [0.85, 1] }, springs.bouncy);
+      return;
+    }
+    animate(lens, { x, width }, springs.gentle);
+    if (!reducedMotion.matches) {
+      animate(lens, { scaleY: [1, 0.78, 1] }, { duration: 0.42, ease: "easeOut" });
+    }
+  };
+
+  const hide = () => {
+    if (!visible) return;
+    visible = false;
+    animate(lens, { opacity: 0, scale: 0.9 }, springs.snappy);
+  };
+
+  targets.forEach((target) => target.addEventListener("pointerenter", () => flowTo(target)));
+  lens.parentElement.addEventListener("pointerleave", hide);
+  return { hide };
 }
