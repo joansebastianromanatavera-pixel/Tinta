@@ -112,6 +112,7 @@ app/
 ## Diseño
 
 - Inspirado en Apple. **Paleta monocromática** de 10 grises, sin color de acento; la jerarquía sale de la profundidad, las sombras y el peso tipográfico.
+- **Liquid glass** (`styles/glass.css` + `glass.js`): fondo desenfocado, cuerpo lechoso, grosor, borde iluminado desde el puntero, reflejo especular que lo sigue e inclinación 3D de hasta 2° en los paneles. Detrás hay una escena ambiental (`styles/ambient.css`) para que el vidrio tenga algo que refractar.
 - Esquinas con curvatura continua, como en Apple.
 - Tipografía Inter en la interfaz y Literata en la vista previa del libro.
 - Todos los valores visuales viven en `app/ui/styles/tokens.css`; ningún componente usa valores sueltos.
@@ -156,5 +157,5 @@ Una función entra en la 1.0 solo cuando cumple todo esto:
 cargo test --workspace
 cargo clippy --workspace --all-targets -- -D warnings
 cargo fmt --all
-cd app && npm install && npm run tauri dev
+cd app && npm install && npm run tauri dev   # o `npm run dev` para ver solo la interfaz en http://localhost:1420
 ```

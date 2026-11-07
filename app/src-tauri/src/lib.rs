@@ -6,7 +6,10 @@ use knddle_kindle::{KindleModel, CATALOG};
 
 /// The conversion pipeline with every phase implemented so far.
 fn conversion_pipeline() -> Pipeline {
-    Pipeline::new().with(DropEmptyChapters).with(TypographyCleanup).with(MarkOpeningParagraphs)
+    Pipeline::new()
+        .with(DropEmptyChapters)
+        .with(TypographyCleanup)
+        .with(MarkOpeningParagraphs)
 }
 
 #[tauri::command]

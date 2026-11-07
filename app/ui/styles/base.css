@@ -55,6 +55,15 @@ input {
 }
 
 /* Empty state */
+.hero-shell {
+  display: flex;
+}
+
+.panel {
+  border-radius: var(--radius-xl);
+  padding: var(--space-7) var(--space-8) var(--space-6);
+}
+
 .hero {
   display: flex;
   flex-direction: column;
@@ -67,7 +76,6 @@ input {
   width: 112px;
   height: 152px;
   color: var(--text);
-  filter: drop-shadow(0 18px 30px rgb(0 0 0 / 0.12));
 }
 
 .hero h1 {
@@ -110,20 +118,6 @@ input {
   height: 16px;
 }
 
-.button--primary {
-  background: var(--fill-primary);
-  color: var(--on-primary);
-  box-shadow: var(--shadow-2);
-}
-
-.button--secondary {
-  background: var(--fill-secondary);
-}
-
-.button--secondary:hover {
-  background: var(--fill-secondary-hover);
-}
-
 .link-field {
   position: absolute;
   inset: 0 auto 0 50%;
@@ -132,8 +126,6 @@ input {
   display: none;
   align-items: center;
   border-radius: var(--radius-pill);
-  background: var(--surface-solid);
-  box-shadow: var(--shadow-2), inset 0 0 0 1px var(--stroke);
   padding: 0 var(--space-2) 0 var(--space-4);
   gap: var(--space-2);
 }
@@ -179,10 +171,6 @@ input {
   pointer-events: none;
   opacity: 0;
   z-index: 20;
-  background: var(--surface);
-  backdrop-filter: blur(var(--blur)) saturate(1.4);
-  -webkit-backdrop-filter: blur(var(--blur)) saturate(1.4);
-  box-shadow: inset 0 0 0 1.5px var(--stroke-strong);
 }
 
 .drop__ring {
@@ -207,16 +195,15 @@ input {
 }
 
 /* Book card */
-.card {
+.card-shell {
   width: var(--card-width);
   max-width: 100%;
-  border-radius: var(--radius-xl);
-  background: var(--surface);
-  backdrop-filter: blur(var(--blur)) saturate(1.4);
-  -webkit-backdrop-filter: blur(var(--blur)) saturate(1.4);
-  box-shadow: var(--shadow-3), inset 0 1px 0 var(--highlight), inset 0 0 0 1px var(--stroke);
-  padding: var(--space-5);
   display: none;
+}
+
+.card {
+  border-radius: var(--radius-xl);
+  padding: var(--space-5);
 }
 
 .card__head {
@@ -260,7 +247,7 @@ input {
 }
 
 .card__close {
-  background: var(--fill-secondary);
+  background: var(--pill-fill);
   color: var(--text-secondary);
 }
 

@@ -1,6 +1,7 @@
 import "@fontsource-variable/inter";
 import "@fontsource-variable/literata";
 import { show, hide } from "./motion.js";
+import { initGlass, initAmbientParallax } from "./glass.js";
 import { pipelinePhases, onFileDrop } from "./api.js";
 import { createActions } from "./components/actions.js";
 import { createDropOverlay } from "./components/drop-overlay.js";
@@ -42,8 +43,12 @@ async function backToStart() {
   busy = true;
   await card.dismiss();
   await actions.reset();
-  show(hero, "flex");
+  initGlass();
+initAmbientParallax(document.getElementById("ambient"));
+show(hero, "flex");
   busy = false;
 }
 
+initGlass();
+initAmbientParallax(document.getElementById("ambient"));
 show(hero, "flex");

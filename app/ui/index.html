@@ -6,13 +6,25 @@
     <title>Knddle</title>
     <link rel="stylesheet" href="./styles/tokens.css" />
     <link rel="stylesheet" href="./styles/base.css" />
+    <link rel="stylesheet" href="./styles/ambient.css" />
+    <link rel="stylesheet" href="./styles/glass.css" />
     <script type="module" src="./main.js"></script>
   </head>
   <body>
+    <div class="ambient" id="ambient" aria-hidden="true">
+      <div class="orb orb--a"></div>
+      <div class="orb orb--b"></div>
+      <div class="orb orb--c"></div>
+      <div class="ring"></div>
+      <div class="grain"></div>
+    </div>
+
     <div class="titlebar" data-tauri-drag-region></div>
 
     <main class="stage">
-      <section class="hero" id="hero">
+      <section class="hero-shell" id="hero">
+        <div class="glass panel squircle" data-glass="panel">
+        <div class="hero">
         <svg class="device" viewBox="0 0 112 152" aria-hidden="true">
           <rect x="1" y="1" width="110" height="150" rx="14" fill="var(--surface-solid)" stroke="var(--stroke-strong)" stroke-width="1.5" />
           <rect x="11" y="13" width="90" height="118" rx="3" fill="var(--grey-100)" />
@@ -34,25 +46,28 @@
         <p>PDF, EPUB, DOCX y más, o pega un enlace.</p>
 
         <div class="actions" id="actions">
-          <button class="button button--primary squircle" id="insert" type="button">
+          <button class="button pill pill--primary squircle" data-glass="pill" id="insert" type="button">
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M8 3v10M3 8h10" /></svg>
             Insertar
           </button>
-          <button class="button button--secondary squircle" id="link" type="button">
+          <button class="button pill squircle" data-glass="pill" id="link" type="button">
             <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><path d="M6.5 9.5l3-3M7 4.5l1-1a2.83 2.83 0 014 4l-1 1M9 11.5l-1 1a2.83 2.83 0 01-4-4l1-1" /></svg>
             Enlace
           </button>
 
-          <form class="link-field" id="link-field" novalidate>
+          <form class="link-field pill squircle" data-glass="pill" id="link-field" novalidate>
             <input id="link-input" type="url" inputmode="url" placeholder="https://" aria-label="Enlace del libro" autocomplete="off" spellcheck="false" />
             <button class="icon-button" type="submit" aria-label="Continuar">
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h10M9 4l4 4-4 4" /></svg>
             </button>
           </form>
         </div>
+        </div>
+        </div>
       </section>
 
-      <article class="card squircle" id="card" aria-live="polite">
+      <article class="card-shell" id="card" aria-live="polite">
+        <div class="glass card squircle" data-glass="panel">
         <div class="card__head">
           <div class="card__cover" id="card-cover"></div>
           <div class="card__meta">
@@ -65,10 +80,11 @@
         </div>
         <p class="phases__caption">Así se convertirá</p>
         <ol class="phases" id="phases"></ol>
+        </div>
       </article>
     </main>
 
-    <div class="drop squircle" id="drop" aria-hidden="true">
+    <div class="drop glass squircle" id="drop" aria-hidden="true">
       <div>
         <div class="drop__ring" id="drop-ring">
           <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M16 6v16M9 15l7 7 7-7M7 26h18" /></svg>

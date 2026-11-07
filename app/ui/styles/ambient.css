@@ -1,0 +1,111 @@
+/*
+ * Ambient scene behind the glass: soft monochrome light shapes that drift
+ * slowly, plus film grain. Without something real behind it, glass has
+ * nothing to bend, blur or reflect.
+ */
+:root {
+  --orb-a: rgb(0 0 0 / 0.34);
+  --orb-b: rgb(255 255 255 / 0.95);
+  --orb-c: rgb(0 0 0 / 0.2);
+  --grain-opacity: 0.05;
+  --scene-bg: radial-gradient(120% 90% at 50% 0%, #fbfbfc 0%, #e9e9ec 55%, #dcdce0 100%);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --orb-a: rgb(255 255 255 / 0.16);
+    --orb-b: rgb(255 255 255 / 0.07);
+    --orb-c: rgb(255 255 255 / 0.11);
+    --grain-opacity: 0.07;
+    --scene-bg: radial-gradient(120% 90% at 50% 0%, #1b1b1e 0%, #0f0f11 60%, #08080a 100%);
+  }
+}
+
+.ambient {
+  position: fixed;
+  inset: -8%;
+  z-index: -1;
+  background: var(--scene-bg);
+  overflow: hidden;
+  will-change: transform;
+}
+
+.orb {
+  position: absolute;
+  border-radius: 50%;
+  will-change: transform;
+}
+
+.orb--a {
+  width: 62vmax;
+  height: 62vmax;
+  left: -6%;
+  top: 18%;
+  background: radial-gradient(closest-side, var(--orb-a), transparent);
+  animation: drift-a 38s ease-in-out infinite alternate;
+}
+
+.orb--b {
+  width: 55vmax;
+  height: 55vmax;
+  right: -10%;
+  top: -22%;
+  background: radial-gradient(closest-side, var(--orb-b), transparent);
+  animation: drift-b 44s ease-in-out infinite alternate;
+}
+
+.orb--c {
+  width: 46vmax;
+  height: 46vmax;
+  right: 4%;
+  bottom: -26%;
+  background: radial-gradient(closest-side, var(--orb-c), transparent);
+  animation: drift-c 52s ease-in-out infinite alternate;
+}
+
+/* A thin arc of light: gives the glass a sharp shape to refract. */
+.ring {
+  position: absolute;
+  width: 44vmax;
+  height: 44vmax;
+  left: 50%;
+  top: 50%;
+  margin: -22vmax 0 0 -22vmax;
+  border-radius: 50%;
+  border: 1.5px solid transparent;
+  border-top-color: var(--orb-a);
+  border-left-color: var(--orb-c);
+  animation: spin 120s linear infinite;
+  will-change: transform;
+}
+
+.grain {
+  position: absolute;
+  inset: 0;
+  opacity: var(--grain-opacity);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+@keyframes drift-a {
+  to { transform: translate3d(14vw, -8vh, 0) scale(1.08); }
+}
+
+@keyframes drift-b {
+  to { transform: translate3d(-12vw, 10vh, 0) scale(0.94); }
+}
+
+@keyframes drift-c {
+  to { transform: translate3d(-16vw, -12vh, 0) scale(1.1); }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .orb,
+  .ring {
+    animation: none;
+  }
+}

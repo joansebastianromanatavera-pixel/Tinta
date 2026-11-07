@@ -274,6 +274,7 @@ cargo test --workspace          # tests del núcleo
 cd app
 npm install
 npm run tauri dev               # app en modo desarrollo
+npm run dev                     # solo la interfaz en el navegador: http://localhost:1420
 npm run tauri build             # instaladores para el sistema actual
 ```
 
@@ -287,9 +288,24 @@ Inspirado en las apps de Apple: claridad, deferencia y profundidad.
 
 Diez tonos de gris, sin color de acento. La jerarquía sale de la profundidad, las sombras y el peso tipográfico. Hay modo claro y oscuro, que siguen al sistema.
 
+### Liquid Glass
+
+Cada superficie de vidrio se construye en capas, y todas reaccionan al puntero:
+
+| Capa | Efecto |
+|---|---|
+| Fondo | Desenfoque y saturación de la escena que hay detrás |
+| Cuerpo | Un velo lechoso, más denso abajo, como el vidrio real |
+| Grosor | Brillo interior en los bordes: la luz atrapada en el vidrio |
+| Borde | Una línea de 1 px iluminada desde donde está el puntero |
+| Reflejo | Un brillo especular que sigue al puntero |
+| Inclinación | Los paneles se inclinan hasta 2° en 3D hacia el puntero |
+
+Detrás del vidrio hay una escena ambiental monocromática: formas de luz que se mueven lentamente, un arco fino y grano de película. Se desplaza levemente con el puntero (paralaje). Todo el movimiento usa resortes en un único bucle de animación que se detiene cuando todo está en reposo.
+
 ### Forma
 
-Esquinas con curvatura continua, como en Apple, no el redondeo estándar. Sombras suaves en capas. Material de vidrio en máximo dos superficies.
+Esquinas con curvatura continua, como en Apple, no el redondeo estándar. Sombras suaves en capas. El desenfoque del fondo (`backdrop-filter`) se usa solo en los paneles; los botones reutilizan el del panel en el que están.
 
 ### Movimiento
 
