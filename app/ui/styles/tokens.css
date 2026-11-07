@@ -1,0 +1,97 @@
+/*
+ * Design tokens — the only place visual values live.
+ * Monochrome: ten greys, no accent colour. Hierarchy comes from depth,
+ * shadow and type weight.
+ */
+:root {
+  /* Grey scale (light) */
+  --grey-0: #ffffff;
+  --grey-50: #f7f7f8;
+  --grey-100: #efeff1;
+  --grey-200: #e2e2e5;
+  --grey-300: #c9c9ce;
+  --grey-400: #a1a1a8;
+  --grey-500: #7b7b82;
+  --grey-600: #5a5a60;
+  --grey-700: #3d3d42;
+  --grey-800: #26262a;
+  --grey-900: #161618;
+
+  /* Semantic roles */
+  --bg: var(--grey-50);
+  --surface: rgb(255 255 255 / 0.72);
+  --surface-solid: var(--grey-0);
+  --stroke: rgb(0 0 0 / 0.07);
+  --stroke-strong: rgb(0 0 0 / 0.14);
+  --highlight: rgb(255 255 255 / 0.9);
+  --text: var(--grey-900);
+  --text-secondary: var(--grey-500);
+  --text-tertiary: var(--grey-400);
+  --fill-primary: var(--grey-900);
+  --on-primary: var(--grey-50);
+  --fill-secondary: rgb(0 0 0 / 0.05);
+  --fill-secondary-hover: rgb(0 0 0 / 0.08);
+  --focus-ring: rgb(0 0 0 / 0.28);
+
+  /* Depth */
+  --shadow-1: 0 1px 2px rgb(0 0 0 / 0.04), 0 1px 1px rgb(0 0 0 / 0.03);
+  --shadow-2: 0 2px 6px rgb(0 0 0 / 0.04), 0 8px 24px rgb(0 0 0 / 0.06);
+  --shadow-3: 0 4px 12px rgb(0 0 0 / 0.05), 0 24px 64px rgb(0 0 0 / 0.1);
+  --blur: 24px;
+
+  /* Shape — continuous-curvature corners where supported */
+  --radius-s: 10px;
+  --radius-m: 14px;
+  --radius-l: 22px;
+  --radius-xl: 30px;
+  --radius-pill: 999px;
+
+  /* Spacing — 4 px scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
+  --space-7: 48px;
+  --space-8: 64px;
+
+  /* Type */
+  --font-ui: "Inter Variable", system-ui, sans-serif;
+  --font-book: "Literata Variable", Georgia, serif;
+  --text-xs: 12px;
+  --text-s: 13px;
+  --text-m: 15px;
+  --text-l: 20px;
+  --text-xl: 28px;
+  --weight-regular: 430;
+  --weight-medium: 520;
+  --weight-semibold: 620;
+  --tracking-tight: -0.022em;
+
+  /* Layout */
+  --titlebar-height: 44px;
+  --control-height: 40px;
+  --card-width: 440px;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0e0e10;
+    --surface: rgb(30 30 33 / 0.72);
+    --surface-solid: #1a1a1d;
+    --stroke: rgb(255 255 255 / 0.07);
+    --stroke-strong: rgb(255 255 255 / 0.14);
+    --highlight: rgb(255 255 255 / 0.08);
+    --text: var(--grey-50);
+    --text-secondary: var(--grey-400);
+    --text-tertiary: var(--grey-600);
+    --fill-primary: var(--grey-50);
+    --on-primary: var(--grey-900);
+    --fill-secondary: rgb(255 255 255 / 0.07);
+    --fill-secondary-hover: rgb(255 255 255 / 0.11);
+    --focus-ring: rgb(255 255 255 / 0.35);
+    --shadow-2: 0 2px 6px rgb(0 0 0 / 0.3), 0 8px 24px rgb(0 0 0 / 0.35);
+    --shadow-3: 0 4px 12px rgb(0 0 0 / 0.35), 0 24px 64px rgb(0 0 0 / 0.5);
+  }
+}

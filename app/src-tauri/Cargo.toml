@@ -1,0 +1,25 @@
+[package]
+name = "knddle"
+description = "Knddle desktop app"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+rust-version.workspace = true
+
+[lib]
+name = "knddle_app"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-dialog = "2"
+serde.workspace = true
+knddle-core = { path = "../../crates/knddle-core" }
+knddle-kindle = { path = "../../crates/knddle-kindle" }
+
+[lints]
+workspace = true

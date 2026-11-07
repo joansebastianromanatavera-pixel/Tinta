@@ -1,0 +1,14 @@
+[package]
+name = "knddle-kindle"
+description = "Kindle device catalog: screens, connections and supported formats"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+authors.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+serde.workspace = true
+
+[lints]
+workspace = true
