@@ -73,6 +73,7 @@
   --titlebar-height: 44px;
   --control-height: 40px;
   --card-width: 440px;
+  --link-field-width: 360px;
 }
 
 @media (prefers-color-scheme: dark) {

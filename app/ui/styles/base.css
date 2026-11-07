@@ -118,11 +118,14 @@ input {
   height: 16px;
 }
 
-.link-field {
+/* Scoped to .actions so it outranks .pill's `position: relative`. */
+.actions > .link-field {
   position: absolute;
+  /* Centred with margins, not transforms: Motion owns this element's
+     transform while it morphs, and would overwrite a centring translate. */
   inset: 0 auto 0 50%;
-  width: 360px;
-  translate: -50% 0;
+  width: var(--link-field-width);
+  margin-left: calc(var(--link-field-width) / -2);
   display: none;
   align-items: center;
   border-radius: var(--radius-pill);
