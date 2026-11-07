@@ -1,65 +1,67 @@
 /*
- * Liquid glass.
+ * Liquid glass, monochrome.
  *
- * A glass surface is built from layers, all driven by the pointer:
- *   1. backdrop   blur + saturation of the ocean scene behind
- *   2. sheen      a curved highlight band, so the slab reads as thick glass
- *   3. thickness  light trapped along the edges (inner glow)
- *   4. rim        a 1 px edge lit from the pointer's direction (--light-angle)
- *   5. dispersion a faint cyan/violet fringe where light leaves the glass
- *   6. specular   a soft highlight that follows the pointer (.glass__light)
- *
- * Pointer-driven layers move with transform/opacity only, so the compositor
- * animates them without repainting the blur.
+ * The pointer is the light; the glass only reflects it. Nothing moves or
+ * tilts. A glass surface is built from layers:
+ *   1. backdrop   blur of the scene behind (it also smooths the grain, so
+ *                 the glass reads as polished against the sandy background)
+ *   2. sheen      a faint curved highlight, thicker at the top edge
+ *   3. thickness  light trapped along the edges
+ *   4. rim        a 1 px edge, brightest on the side facing the light
+ *   5. specular   a soft reflection of the light on the surface
  */
 
 @property --light-angle {
   syntax: "<angle>";
   inherits: true;
-  initial-value: 0deg;
+  initial-value: 45deg;
 }
 
 :root {
-  --glass-blur: 22px;
-  --glass-saturate: 1.7;
+  --glass-blur: 26px;
+  --glass-saturate: 1.2;
   --glass-sheen: linear-gradient(
-    172deg,
-    rgb(255 255 255 / 0.2) 0%,
-    rgb(255 255 255 / 0.07) 32%,
-    rgb(255 255 255 / 0.02) 58%,
-    rgb(160 225 255 / 0.08) 100%
+    180deg,
+    rgb(255 255 255 / 0.1) 0%,
+    rgb(255 255 255 / 0.04) 28%,
+    rgb(255 255 255 / 0.02) 70%,
+    rgb(255 255 255 / 0.05) 100%
   );
-  --glass-thickness: rgb(180 232 255 / 0.32);
-  --glass-rim-lit: rgb(255 255 255 / 1);
-  --glass-rim-base: rgb(200 236 255 / 0.3);
-  --glass-rim-shade: rgb(0 10 40 / 0.2);
-  --glass-specular: rgb(210 244 255 / 0.42);
-  --glass-shadow: 0 2px 4px rgb(0 4 24 / 0.2), 0 18px 44px rgb(0 4 24 / 0.35),
-    0 60px 120px rgb(0 4 24 / 0.45);
+  --glass-tint: rgb(14 14 16 / 0.42);
+  --glass-thickness: rgb(255 255 255 / 0.12);
+  --glass-rim-base: rgb(255 255 255 / 0.16);
+  --glass-rim-shade: rgb(255 255 255 / 0.05);
+  --glass-specular: rgb(255 255 255 / 0.14);
+  --glass-shadow: 0 1px 2px rgb(0 0 0 / 0.5), 0 24px 60px rgb(0 0 0 / 0.55),
+    0 60px 140px rgb(0 0 0 / 0.5);
 
-  --pill-fill: rgb(4 22 76 / 0.24);
-  --pill-fill-hover: rgb(4 22 76 / 0.34);
-  --pill-primary-fill: linear-gradient(180deg, rgb(255 255 255 / 0.95), rgb(214 240 255 / 0.88));
-  --pill-primary-text: var(--navy-900);
+  --pill-fill: rgb(255 255 255 / 0.07);
+  --pill-fill-hover: rgb(255 255 255 / 0.11);
+  --pill-primary-fill: rgb(245 245 247 / 0.96);
+  --pill-primary-text: var(--grey-950);
 }
 
 .glass {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  background: var(--glass-sheen);
+  background: var(--glass-sheen), var(--glass-tint);
   backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
   -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturate));
   box-shadow:
     var(--glass-shadow),
-    inset 0 0 28px -8px var(--glass-thickness),
-    inset 0 -14px 34px -22px var(--glass-thickness),
-    inset 0 1px 0 rgb(255 255 255 / 0.25);
-  transform-style: preserve-3d;
-  will-change: transform;
+    inset 0 0 30px -10px var(--glass-thickness),
+    inset 0 1px 0 rgb(255 255 255 / 0.12);
 }
 
-/* Rim: a 1 px ring lit from the pointer's side, shaded on the opposite one. */
+/* The lit side of the rim brightens as the light gets closer
+   (--rim-strength is set per surface by glass.js). */
+.glass,
+.pill {
+  --glass-rim-lit: rgb(255 255 255 / calc(0.95 * var(--rim-strength, 0.2)));
+}
+
+/* Rim: brightest on the side facing the light. */
 .glass::before,
 .pill::before {
   content: "";
@@ -70,9 +72,9 @@
   background: conic-gradient(
     from var(--light-angle),
     var(--glass-rim-lit) 0deg,
-    var(--glass-rim-base) 60deg,
+    var(--glass-rim-base) 55deg,
     var(--glass-rim-shade) 180deg,
-    var(--glass-rim-base) 300deg,
+    var(--glass-rim-base) 305deg,
     var(--glass-rim-lit) 360deg
   );
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
@@ -82,30 +84,7 @@
   z-index: 4;
 }
 
-/* Dispersion: a thin spectral fringe on the side opposite the light. */
-.glass::after {
-  content: "";
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  padding: 1.5px;
-  background: conic-gradient(
-    from calc(var(--light-angle) + 150deg),
-    transparent 0deg,
-    rgb(120 230 255 / 0.55) 18deg,
-    rgb(170 140 255 / 0.45) 36deg,
-    rgb(255 170 230 / 0.3) 50deg,
-    transparent 64deg,
-    transparent 360deg
-  );
-  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-  z-index: 4;
-}
-
-/* Specular highlight that follows the pointer. */
+/* Reflection of the light on the surface. */
 .glass__light {
   position: absolute;
   top: calc(var(--light-size) / -2);
@@ -121,12 +100,12 @@
 }
 
 .glass > .glass__light {
-  --light-size: 560px;
+  --light-size: 620px;
 }
 
 .pill > .glass__light {
-  --light-size: 130px;
-  --glass-specular: rgb(210 244 255 / 0.12);
+  --light-size: 120px;
+  --glass-specular: rgb(255 255 255 / 0.16);
 }
 
 .glass > :not(.glass__light) {
@@ -134,28 +113,18 @@
   z-index: 3;
 }
 
-/* Glass pills (buttons, chips, fields). No backdrop filter of their own:
-   they sit on a glass panel, so they stay cheap while keeping rim and
-   specular light. */
+/* Pills (buttons, fields) sit on a glass panel, so they borrow its blur
+   and only add their own rim and reflection. */
 .pill {
   position: relative;
   isolation: isolate;
   overflow: hidden;
   background: var(--pill-fill);
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.22),
-    inset 0 -6px 14px -8px rgb(169 236 255 / 0.35),
-    0 6px 18px -8px rgb(0 4 24 / 0.6);
-  transition: background-color 200ms ease;
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.08), 0 4px 14px -6px rgb(0 0 0 / 0.6);
+  transition: background-color 220ms ease;
 }
 
-.pill {
-  text-shadow: 0 1px 2px rgb(0 10 40 / 0.35);
-}
-
-/* Actions show hover through the liquid lens instead of a fill change. */
-.chip:hover,
-.link-field:hover {
+.pill:hover {
   background: var(--pill-fill-hover);
 }
 
@@ -168,35 +137,12 @@
 .pill--primary:hover {
   background: var(--pill-primary-fill);
   color: var(--pill-primary-text);
-  text-shadow: none;
-  --glass-rim-base: rgb(255 255 255 / 0.6);
-  --glass-rim-shade: rgb(120 200 255 / 0.4);
-  --glass-specular: rgb(255 255 255 / 1);
-  box-shadow:
-    inset 0 -8px 16px -8px rgb(63 208 255 / 0.55),
-    0 0 0 1px rgb(255 255 255 / 0.15),
-    0 10px 30px -6px rgb(63 208 255 / 0.55);
+  --glass-rim-lit: rgb(255 255 255 / 1);
+  --glass-rim-base: rgb(255 255 255 / 0.5);
+  --glass-rim-shade: rgb(0 0 0 / 0.08);
+  box-shadow: inset 0 -6px 14px -8px rgb(0 0 0 / 0.18), 0 8px 24px -8px rgb(255 255 255 / 0.18);
 }
 
 .pill--primary > .glass__light {
   --glass-specular: rgb(255 255 255 / 0.9);
-}
-
-/* Liquid lens: one glass drop that flows between hovered actions. */
-.lens {
-  position: absolute;
-  top: -4px;
-  left: 0;
-  height: calc(100% + 8px);
-  width: 0;
-  border-radius: var(--radius-pill);
-  background: radial-gradient(120% 140% at 50% 0%, rgb(255 255 255 / 0.12), rgb(255 255 255 / 0.02) 60%);
-  box-shadow:
-    inset 0 1px 0 rgb(255 255 255 / 0.5),
-    inset 0 -6px 16px -6px rgb(120 220 255 / 0.5),
-    0 0 24px rgb(63 208 255 / 0.25);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 0;
-  will-change: transform, opacity;
 }

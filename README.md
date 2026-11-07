@@ -4,7 +4,7 @@
 
 **Convierte cualquier libro en un ebook que en tu Kindle se ve como uno comprado, y llega solo a tu dispositivo.**
 
-Rust · Tauri · Linux, Windows y macOS · Liquid Glass · Cada detalle importa
+Rust · Tauri · Linux, Windows y macOS · Monocromático · Liquid Glass · Cada detalle importa
 
 ![Estado](https://img.shields.io/badge/estado-en%20desarrollo-lightgrey)
 ![Rust](https://img.shields.io/badge/rust-stable-black)
@@ -284,40 +284,27 @@ npm run tauri build             # instaladores para el sistema actual
 
 Inspirado en las apps de Apple: claridad, deferencia y profundidad.
 
-### Paleta "Abismo"
+### Paleta monocromática
 
-Del azul marino profundo al azul mar, con luz cian. Un solo tema oscuro y saturado: el vidrio necesita una escena con color detrás para refractarla y reflejarla.
+Negro primero. Grises y blanco, sin color de acento: la jerarquía sale de la luz, la profundidad y el peso tipográfico. Los valores viven en `app/ui/styles/tokens.css`.
 
-| Token | Color |
-|---|---|
-| `--abyss` | `#010617` |
-| `--navy-900` / `--navy-800` / `--navy-700` | `#031034` / `#061d5e` / `#0a2f9c` |
-| `--blue-600` / `--blue-500` | `#0f4fe0` / `#2a72ff` |
-| `--sea-400` / `--sea-300` | `#12a8ff` / `#3fd0ff` |
-| `--foam-200` / `--foam-100` | `#a9ecff` / `#e8f8ff` |
+### La escena
 
-### Liquid Glass
+Fondo negro con una luz blanca suave que cae desde arriba a la derecha y un brillo tenue abajo a la izquierda. Todo está cubierto de **grano fino**, como arena blanca y negra. El grano se pinta una vez en un canvas, a un píxel físico por grano para que se vea nítido, con grises en curva de campana alrededor del gris medio. La escena casi no se mueve: una sola deriva muy lenta de la luz, y nada que siga al mouse.
 
-Cada superficie de vidrio se construye en capas, y todas reaccionan al puntero:
+### Liquid Glass: el mouse es la luz
+
+El vidrio no se mueve, no se inclina ni rebota. **El mouse es una fuente de luz y el vidrio solo la refleja:**
 
 | Capa | Efecto |
 |---|---|
-| Fondo | Desenfoque y saturación de la escena que hay detrás |
-| Brillo curvo | Una banda de luz que hace que el panel se lea como vidrio grueso |
-| Grosor | Brillo interior en los bordes: la luz atrapada en el vidrio |
-| Borde | Una línea de 1 px iluminada desde donde está el puntero |
-| Dispersión | Un filo espectral tenue (cian, violeta, rosa) en el lado opuesto a la luz |
-| Reflejo | Un brillo especular que sigue al puntero |
-| Inclinación | Los paneles se inclinan hasta 4° en 3D hacia el puntero, y su contenido se desplaza por capas de profundidad |
+| Desenfoque | Suaviza la escena y su grano: el vidrio se ve pulido sobre un fondo de arena |
+| Brillo | Una banda tenue más intensa arriba, como un vidrio grueso |
+| Grosor | Luz atrapada a lo largo de los bordes |
+| Borde | Una línea de 1 px que brilla del lado donde está la luz, y con más fuerza cuanto más cerca está |
+| Reflejo | Un reflejo suave que se desliza hacia la luz |
 
-**Interacción:**
-
-- **Lente líquida:** una gota de vidrio fluye entre los botones, se estira al viajar y se posa sobre el que tiene el puntero.
-- **Botones magnéticos:** se inclinan hacia el puntero.
-- **Luz bajo el vidrio:** un resplandor cian sigue al puntero por detrás, así que el vidrio se ilumina donde miras.
-- **Gotas de vidrio:** flotan alrededor, se desplazan en paralaje y huyen del puntero cuando se acerca.
-
-**Escena detrás del vidrio:** un océano desenfocado de azul marino, azul rey y cian, con anillos de luz que respiran y grano de película. Todo el movimiento usa resortes, y los bucles se detienen cuando todo está en reposo.
+La luz se mueve con resortes con amortiguación crítica: llega suave y nunca se pasa de largo. Si la luz se aleja, el reflejo se apaga poco a poco.
 
 ### Forma
 
@@ -336,7 +323,7 @@ Esquinas con curvatura continua, como en Apple, no el redondeo estándar. Sombra
 
 | Momento | Animación |
 |---|---|
-| Kindle conectado | El dispositivo sube desde abajo con un rebote suave y aparecen su modelo y espacio libre |
+| Kindle conectado | El dispositivo aparece desde abajo con un resorte suave y luego su modelo y espacio libre |
 | Kindle desconectado | Se encoge, se desenfoca y desaparece; el resto se reacomoda sin saltos |
 | Envío por correo | El libro se dobla en un avión de papel que vuela en curva y se convierte en ✓ |
 | Procesamiento | Sin spinners: anillo con el porcentaje real y la fase actual en un fundido |

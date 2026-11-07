@@ -1,39 +1,37 @@
 /*
  * Design tokens — the only place visual values live.
  *
- * Palette "Abismo": deep navy to sea blue, with cyan light. One theme: the
- * glass needs a dark, saturated scene behind it to bend and reflect.
+ * Monochrome, black first. No accent colour: hierarchy comes from light,
+ * depth and type weight.
  */
 :root {
-  /* Ocean palette, darkest to lightest */
-  --abyss: #010617;
-  --navy-900: #031034;
-  --navy-800: #061d5e;
-  --navy-700: #0a2f9c;
-  --blue-600: #0f4fe0;
-  --blue-500: #2a72ff;
-  --sea-400: #12a8ff;
-  --sea-300: #3fd0ff;
-  --foam-200: #a9ecff;
-  --foam-100: #e8f8ff;
+  /* Grey scale, black to white */
+  --black: #000000;
+  --grey-950: #070708;
+  --grey-900: #0e0e10;
+  --grey-800: #1a1a1d;
+  --grey-700: #2a2a2e;
+  --grey-500: #6e6e74;
+  --grey-400: #9a9aa0;
+  --grey-300: #c4c4c9;
+  --grey-100: #ececef;
+  --white: #ffffff;
 
   /* Semantic roles */
-  --bg: var(--abyss);
-  --text: #f4f9ff;
-  --text-secondary: rgb(214 232 255 / 0.72);
-  --text-tertiary: rgb(190 215 255 / 0.48);
-  --focus-ring: rgb(63 208 255 / 0.7);
-  --accent: var(--sea-300);
+  --bg: var(--black);
+  --text: #f5f5f7;
+  --text-secondary: rgb(245 245 247 / 0.6);
+  --text-tertiary: rgb(245 245 247 / 0.38);
+  --focus-ring: rgb(255 255 255 / 0.55);
 
   /* Depth */
-  --shadow-2: 0 2px 6px rgb(0 4 20 / 0.35), 0 10px 28px rgb(0 4 20 / 0.35);
-  --shadow-3: 0 6px 16px rgb(0 4 20 / 0.35), 0 30px 80px rgb(0 4 20 / 0.55);
+  --shadow-2: 0 2px 6px rgb(0 0 0 / 0.4), 0 10px 28px rgb(0 0 0 / 0.4);
 
   /* Shape — continuous-curvature corners where supported */
   --radius-s: 10px;
   --radius-m: 14px;
   --radius-l: 22px;
-  --radius-xl: 34px;
+  --radius-xl: 32px;
   --radius-pill: 999px;
 
   /* Spacing — 4 px scale */
@@ -53,16 +51,16 @@
   --text-s: 13px;
   --text-m: 15px;
   --text-l: 20px;
-  --text-xl: 32px;
-  --weight-regular: 430;
-  --weight-medium: 540;
-  --weight-semibold: 640;
-  --tracking-tight: -0.028em;
+  --text-xl: 30px;
+  --weight-regular: 420;
+  --weight-medium: 520;
+  --weight-semibold: 600;
+  --tracking-tight: -0.026em;
 
   /* Layout */
   --titlebar-height: 44px;
-  --control-height: 44px;
-  --panel-width: 520px;
-  --card-width: 460px;
-  --link-field-width: 380px;
+  --control-height: 42px;
+  --panel-width: 440px;
+  --card-width: 440px;
+  --link-field-width: 360px;
 }

@@ -1,216 +1,61 @@
 /*
- * Ambient scene behind the glass: a blurred ocean of light.
- *
- * Large soft blobs of navy, royal blue and cyan drift slowly; two rings of
- * light swirl like the bottom of a wave; a cyan glow follows the pointer so
- * the glass lights up wherever the user looks. Glass droplets float above.
- * Everything moves with transform only.
+ * Scene behind the glass: black, with soft blurred light falling from the
+ * top right, covered in fine black-and-white grain like sand. It barely
+ * moves: one very slow drift, nothing tied to the pointer.
  */
 .ambient {
   position: fixed;
-  inset: -10%;
+  inset: 0;
   z-index: -1;
   overflow: hidden;
-  background:
-    radial-gradient(120% 90% at 85% 100%, var(--sea-400) 0%, transparent 55%),
-    radial-gradient(90% 70% at 10% 0%, var(--abyss) 0%, transparent 70%),
-    linear-gradient(160deg, var(--navy-900) 0%, var(--navy-800) 45%, var(--blue-600) 100%);
-  will-change: transform;
+  background: var(--black);
 }
 
-.blob {
+.light {
   position: absolute;
   border-radius: 50%;
   will-change: transform;
 }
 
-.blob--cyan {
-  width: 70vmax;
-  height: 70vmax;
-  right: -18%;
-  bottom: -30%;
-  background: radial-gradient(closest-side, rgb(63 208 255 / 0.85), rgb(18 168 255 / 0.35) 55%, transparent);
-  animation: drift-a 36s ease-in-out infinite alternate;
-}
-
-.blob--royal {
-  width: 64vmax;
-  height: 64vmax;
-  left: 18%;
-  top: 10%;
-  background: radial-gradient(closest-side, rgb(42 114 255 / 0.7), transparent);
-  animation: drift-b 44s ease-in-out infinite alternate;
-}
-
-.blob--abyss {
-  width: 68vmax;
-  height: 68vmax;
-  left: -22%;
-  top: -26%;
-  background: radial-gradient(closest-side, rgb(1 6 23 / 0.95), transparent);
-  animation: drift-c 50s ease-in-out infinite alternate;
-}
-
-/* Soft rings of light, like light refracted at the bottom of the sea. */
-.swirl {
-  position: absolute;
-  left: 50%;
-  top: 55%;
-  border-radius: 50%;
-  will-change: transform;
-}
-
-.swirl--outer {
-  width: 120vmax;
-  height: 120vmax;
-  margin: -60vmax 0 0 -60vmax;
+/* Main light: a wide soft bloom falling from the top right, reaching
+   behind the glass so the panel has a gradient to refract. */
+.light--key {
+  width: 130vmax;
+  height: 130vmax;
+  right: -52vmax;
+  top: -66vmax;
   background: radial-gradient(
     closest-side,
-    transparent 70%,
-    rgb(63 208 255 / 0.28) 78%,
-    rgb(42 114 255 / 0.12) 84%,
-    transparent 92%
+    rgb(255 255 255 / 0.85),
+    rgb(255 255 255 / 0.42) 30%,
+    rgb(255 255 255 / 0.14) 58%,
+    rgb(255 255 255 / 0.03) 80%,
+    transparent
   );
-  animation: breathe 18s ease-in-out infinite alternate;
+  animation: drift 90s ease-in-out infinite alternate;
 }
 
-.swirl--inner {
-  width: 70vmax;
-  height: 70vmax;
-  margin: -35vmax 0 0 -35vmax;
-  background: radial-gradient(
-    closest-side,
-    transparent 62%,
-    rgb(169 236 255 / 0.22) 72%,
-    transparent 84%
-  );
-  animation: breathe 14s ease-in-out infinite alternate-reverse;
-}
-
-/* Light that follows the pointer (moved by glass.js). */
-.pointer-glow {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 46vmax;
-  height: 46vmax;
-  margin: -23vmax 0 0 -23vmax;
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgb(120 220 255 / 0.34), rgb(42 114 255 / 0.14) 50%, transparent);
-  opacity: 0;
-  will-change: transform, opacity;
+/* Fill light: a faint glow low on the left, so the black has depth. */
+.light--fill {
+  width: 80vmax;
+  height: 56vmax;
+  left: -34vmax;
+  bottom: -28vmax;
+  background: radial-gradient(closest-side, rgb(255 255 255 / 0.12), transparent);
 }
 
 .grain {
   position: absolute;
   inset: 0;
-  opacity: 0.06;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   pointer-events: none;
 }
 
-/* Floating glass droplets. Positioned by glass.js (parallax + repulsion). */
-.droplets {
-  position: fixed;
-  inset: 0;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.droplet-anchor {
-  position: absolute;
-  will-change: transform;
-}
-
-.droplet {
-  position: absolute;
-  inset: 0;
-  border-radius: inherit;
-  background:
-    radial-gradient(60% 45% at 32% 26%, rgb(255 255 255 / 0.75), transparent 60%),
-    radial-gradient(70% 55% at 70% 85%, rgb(169 236 255 / 0.45), transparent 70%),
-    radial-gradient(closest-side, rgb(255 255 255 / 0.05) 60%, rgb(255 255 255 / 0.35) 92%, rgb(255 255 255 / 0.6));
-  box-shadow:
-    inset 0 -8px 18px rgb(63 208 255 / 0.35),
-    inset 0 6px 14px rgb(255 255 255 / 0.25),
-    0 18px 40px rgb(0 6 30 / 0.45);
-  animation: bob 7s ease-in-out infinite alternate;
-  will-change: transform;
-}
-
-.droplet-anchor--a {
-  width: 96px;
-  height: 96px;
-  border-radius: 50%;
-  left: 14%;
-  top: 64%;
-}
-
-.droplet-anchor--b {
-  width: 58px;
-  height: 58px;
-  border-radius: 50%;
-  right: 17%;
-  top: 22%;
-}
-
-.droplet-anchor--b .droplet {
-  animation-duration: 5.5s;
-  animation-delay: -2s;
-}
-
-.droplet-anchor--c {
-  width: 150px;
-  height: 64px;
-  border-radius: 999px;
-  right: 11%;
-  bottom: 14%;
-}
-
-.droplet-anchor--c .droplet {
-  animation-duration: 9s;
-  animation-delay: -4s;
-}
-
-.droplet-anchor--d {
-  width: 34px;
-  height: 34px;
-  border-radius: 50%;
-  left: 24%;
-  top: 18%;
-}
-
-.droplet-anchor--d .droplet {
-  animation-duration: 6s;
-  animation-delay: -1s;
-}
-
-@keyframes bob {
-  from { transform: translate3d(0, -6px, 0) rotate(-3deg); }
-  to { transform: translate3d(0, 8px, 0) rotate(3deg); }
-}
-
-@keyframes drift-a {
-  to { transform: translate3d(-12vw, -10vh, 0) scale(1.1); }
-}
-
-@keyframes drift-b {
-  to { transform: translate3d(10vw, 12vh, 0) scale(0.9); }
-}
-
-@keyframes drift-c {
-  to { transform: translate3d(14vw, 8vh, 0) scale(1.08); }
-}
-
-@keyframes breathe {
-  from { transform: scale(0.94) rotate(0deg); }
-  to { transform: scale(1.06) rotate(8deg); }
+@keyframes drift {
+  to { transform: translate3d(-4vw, 3vh, 0) scale(1.04); }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .blob,
-  .swirl,
-  .droplet {
+  .light--key {
     animation: none;
   }
 }

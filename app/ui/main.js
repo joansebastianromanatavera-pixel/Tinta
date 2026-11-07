@@ -1,12 +1,8 @@
 import "@fontsource-variable/inter";
 import "@fontsource-variable/literata";
 import { show, hide } from "./motion.js";
-import {
-  initGlass,
-  initAmbientParallax,
-  initPointerGlow,
-  initDroplets,
-} from "./glass.js";
+import { initGlass } from "./glass.js";
+import { paintGrain } from "./grain.js";
 import { pipelinePhases, onFileDrop } from "./api.js";
 import { createActions } from "./components/actions.js";
 import { createDropOverlay } from "./components/drop-overlay.js";
@@ -48,16 +44,10 @@ async function backToStart() {
   busy = true;
   await card.dismiss();
   await actions.reset();
-  initGlass();
-initAmbientParallax(document.getElementById("ambient"));
-initPointerGlow(document.getElementById("pointer-glow"));
-initDroplets(document.querySelectorAll("[data-droplet]"));
-show(hero, "flex");
+  await show(hero, "flex");
   busy = false;
 }
 
+paintGrain(document.getElementById("grain"));
 initGlass();
-initAmbientParallax(document.getElementById("ambient"));
-initPointerGlow(document.getElementById("pointer-glow"));
-initDroplets(document.querySelectorAll("[data-droplet]"));
 show(hero, "flex");

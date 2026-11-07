@@ -2,10 +2,11 @@
 // reduced motion, springs become short opacity fades.
 import { animate } from "motion";
 
+// Calm springs: near-critical damping, so things settle without bouncing.
 export const springs = {
-  snappy: { type: "spring", stiffness: 520, damping: 38 },
-  gentle: { type: "spring", stiffness: 260, damping: 30 },
-  bouncy: { type: "spring", stiffness: 340, damping: 20 },
+  snappy: { type: "spring", stiffness: 520, damping: 44 },
+  gentle: { type: "spring", stiffness: 240, damping: 30 },
+  soft: { type: "spring", stiffness: 300, damping: 30 },
 };
 
 const REDUCED_FADE = { duration: 0.15, ease: "easeOut" };
@@ -20,7 +21,7 @@ export function move(element, keyframes, spring = springs.gentle) {
 
 export function show(element, display = "block") {
   element.style.display = display;
-  return move(element, { opacity: [0, 1], y: [14, 0], scale: [0.97, 1] });
+  return move(element, { opacity: [0, 1], y: [10, 0], scale: [0.985, 1] });
 }
 
 export async function hide(element) {
@@ -36,8 +37,8 @@ export function shake(element) {
 
 /** Press feedback for buttons: a quick scale-down that springs back. */
 export function pressable(button) {
-  button.addEventListener("pointerdown", () => move(button, { scale: 0.96 }, springs.snappy));
-  const release = () => move(button, { scale: 1 }, springs.bouncy);
+  button.addEventListener("pointerdown", () => move(button, { scale: 0.97 }, springs.snappy));
+  const release = () => move(button, { scale: 1 }, springs.soft);
   button.addEventListener("pointerup", release);
   button.addEventListener("pointerleave", release);
 }

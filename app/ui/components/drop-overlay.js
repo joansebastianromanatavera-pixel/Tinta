@@ -2,7 +2,7 @@
 import { animate } from "motion";
 import { move, springs } from "../motion.js";
 
-const BREATH = { duration: 1.8, repeat: Infinity, ease: "easeInOut" };
+const BREATH = { duration: 2.4, repeat: Infinity, ease: "easeInOut" };
 
 export function createDropOverlay() {
   const overlay = document.getElementById("drop");
@@ -12,9 +12,9 @@ export function createDropOverlay() {
   return {
     enter() {
       move(overlay, { opacity: 1 }, springs.snappy);
-      move(ring, { scale: [0.85, 1] }, springs.bouncy);
+      move(ring, { scale: [0.85, 1] }, springs.soft);
       if (!window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
-        breathing = animate(ring, { scale: [1, 1.07, 1] }, BREATH);
+        breathing = animate(ring, { scale: [1, 1.04, 1] }, BREATH);
       }
     },
     async leave({ absorbed = false } = {}) {

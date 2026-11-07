@@ -11,21 +11,10 @@
     <script type="module" src="./main.js"></script>
   </head>
   <body>
-    <div class="ambient" id="ambient" aria-hidden="true">
-      <div class="blob blob--abyss"></div>
-      <div class="blob blob--royal"></div>
-      <div class="blob blob--cyan"></div>
-      <div class="swirl swirl--outer"></div>
-      <div class="swirl swirl--inner"></div>
-      <div class="pointer-glow" id="pointer-glow"></div>
-      <div class="grain"></div>
-    </div>
-
-    <div class="droplets" aria-hidden="true">
-      <div class="droplet-anchor droplet-anchor--a" data-droplet="0.9"><div class="droplet"></div></div>
-      <div class="droplet-anchor droplet-anchor--b" data-droplet="0.55"><div class="droplet"></div></div>
-      <div class="droplet-anchor droplet-anchor--c" data-droplet="1.2"><div class="droplet"></div></div>
-      <div class="droplet-anchor droplet-anchor--d" data-droplet="0.4"><div class="droplet"></div></div>
+    <div class="ambient" aria-hidden="true">
+      <div class="light light--key"></div>
+      <div class="light light--fill"></div>
+      <div class="grain" id="grain"></div>
     </div>
 
     <div class="titlebar" data-tauri-drag-region></div>
@@ -34,53 +23,25 @@
       <section class="hero-shell" id="hero">
         <div class="glass panel squircle" data-glass="panel">
           <div class="hero">
-            <svg class="device" data-depth="14" viewBox="0 0 104 142" aria-hidden="true">
-              <defs>
-                <linearGradient id="device-body" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stop-color="#1b3f9e" />
-                  <stop offset="1" stop-color="#061542" />
-                </linearGradient>
-                <linearGradient id="device-screen" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0" stop-color="#f6fbff" />
-                  <stop offset="1" stop-color="#dcecf8" />
-                </linearGradient>
-                <linearGradient id="device-gloss" x1="0" y1="0" x2="1" y2="1">
-                  <stop offset="0" stop-color="#fff" stop-opacity="0.35" />
-                  <stop offset="0.45" stop-color="#fff" stop-opacity="0" />
-                </linearGradient>
-              </defs>
-              <rect x="1" y="1" width="102" height="140" rx="15" fill="url(#device-body)" stroke="rgb(169 236 255 / 0.45)" stroke-width="1.2" />
-              <rect x="10" y="12" width="84" height="110" rx="3.5" fill="url(#device-screen)" />
-              <g fill="#9fb4cf">
-                <rect x="19" y="26" width="40" height="5" rx="2.5" fill="#5a7397" />
-                <rect x="19" y="40" width="66" height="3" rx="1.5" />
-                <rect x="19" y="48" width="62" height="3" rx="1.5" />
-                <rect x="19" y="56" width="66" height="3" rx="1.5" />
-                <rect x="19" y="64" width="52" height="3" rx="1.5" />
-                <rect x="19" y="76" width="66" height="3" rx="1.5" />
-                <rect x="19" y="84" width="60" height="3" rx="1.5" />
-                <rect x="19" y="92" width="66" height="3" rx="1.5" />
-                <rect x="19" y="100" width="36" height="3" rx="1.5" />
+            <svg class="device" viewBox="0 0 64 88" fill="none" aria-hidden="true">
+              <rect x="1" y="1" width="62" height="86" rx="10" stroke="currentColor" stroke-opacity="0.55" stroke-width="1.5" />
+              <rect x="7" y="8" width="50" height="66" rx="2.5" fill="currentColor" fill-opacity="0.06" />
+              <g fill="currentColor" fill-opacity="0.32">
+                <rect x="13" y="16" width="22" height="3" rx="1.5" fill-opacity="0.55" />
+                <rect x="13" y="25" width="38" height="2" rx="1" />
+                <rect x="13" y="30" width="35" height="2" rx="1" />
+                <rect x="13" y="35" width="38" height="2" rx="1" />
+                <rect x="13" y="40" width="28" height="2" rx="1" />
+                <rect x="13" y="48" width="38" height="2" rx="1" />
+                <rect x="13" y="53" width="33" height="2" rx="1" />
+                <rect x="13" y="58" width="20" height="2" rx="1" />
               </g>
-              <rect x="46" y="130" width="12" height="3" rx="1.5" fill="rgb(169 236 255 / 0.5)" />
-              <rect x="1" y="1" width="102" height="140" rx="15" fill="url(#device-gloss)" />
+              <rect x="28" y="79" width="8" height="2" rx="1" fill="currentColor" fill-opacity="0.4" />
             </svg>
-
-            <p class="eyebrow" data-depth="6">Knddle</p>
-            <h1 data-depth="5">Suelta un libro</h1>
-            <p data-depth="4">Arrastra un archivo aquí o pega un enlace. Llegará a tu Kindle como un libro comprado.</p>
-
-            <div class="formats" data-depth="3" aria-label="Formatos compatibles">
-              <span class="chip pill" data-glass="pill">PDF</span>
-              <span class="chip pill" data-glass="pill">EPUB</span>
-              <span class="chip pill" data-glass="pill">DOCX</span>
-              <span class="chip pill" data-glass="pill">MOBI</span>
-              <span class="chip pill" data-glass="pill">HTML</span>
-              <span class="chip pill" data-glass="pill">Web</span>
-            </div>
+            <h1>Suelta un libro</h1>
+            <p>Arrastra un archivo o pega un enlace.</p>
 
             <div class="actions" id="actions">
-              <span class="lens" id="lens" aria-hidden="true"></span>
               <button class="button pill pill--primary squircle" data-glass="pill" id="insert" type="button">
                 <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><path d="M8 3v10M3 8h10" /></svg>
                 <span>Insertar</span>
