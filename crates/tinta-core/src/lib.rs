@@ -2,6 +2,7 @@
 //!
 //! This crate is pure domain logic: no file, network or device IO.
 
+pub mod language;
 pub mod model;
 pub mod phases;
 pub mod pipeline;
