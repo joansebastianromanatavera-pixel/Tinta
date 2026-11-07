@@ -16,12 +16,12 @@ jobs:
         os: [ubuntu-24.04, windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - uses: dtolnay/rust-toolchain@stable
         with:
           components: clippy, rustfmt
       - uses: Swatinem/rust-cache@v2
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
           cache: npm
@@ -31,6 +31,9 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y libwebkit2gtk-4.1-dev libayatana-appindicator3-dev librsvg2-dev libxdo-dev libssl-dev
+      - name: PDF engine
+        shell: bash
+        run: scripts/fetch-pdfium.sh
       - name: Build interface
         working-directory: app
         run: npm ci && npm run build
@@ -49,9 +52,10 @@ jobs:
     steps:
       - name: Toolchain
         run: |
-          if command -v dnf; then dnf install -y gcc git curl; fi
+          if command -v dnf; then dnf install -y gcc git curl tar gzip; fi
           if command -v pacman; then pacman -Syu --noconfirm gcc git curl; fi
           if command -v apt-get; then apt-get update && apt-get install -y gcc git curl ca-certificates; fi
           curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal
-      - uses: actions/checkout@v4
-      - run: ~/.cargo/bin/cargo test -p tinta-core -p tinta-kindle
+      - uses: actions/checkout@v5
+      - run: scripts/fetch-pdfium.sh
+      - run: ~/.cargo/bin/cargo test -p tinta-core -p tinta-kindle -p tinta-pdf
