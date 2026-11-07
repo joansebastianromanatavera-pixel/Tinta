@@ -1,4 +1,4 @@
-use knddle_core::typography::{
+use tinta_core::typography::{
     clean, collapse_spaces, fix_ligatures, join_broken_lines, normalize_punctuation,
     remove_invisible, smart_quotes,
 };

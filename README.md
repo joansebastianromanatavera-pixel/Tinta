@@ -1,6 +1,6 @@
 <div align="center">
 
-# Knddle
+# Tinta
 
 **Convierte cualquier libro en un ebook que en tu Kindle se ve como uno comprado, y llega solo a tu dispositivo.**
 
@@ -17,7 +17,7 @@ Rust · Tauri · Linux, Windows y macOS · Monocromático · Liquid Glass · Cad
 
 ## Tabla de contenidos
 
-1. [¿Qué es Knddle?](#qué-es-knddle)
+1. [¿Qué es Tinta?](#qué-es-tinta)
 2. [Características de la 1.0](#características-de-la-10)
 3. [Como un libro comprado](#como-un-libro-comprado)
 4. [Formatos de Kindle y el camino hacia KFX](#formatos-de-kindle-y-el-camino-hacia-kfx)
@@ -39,9 +39,9 @@ Rust · Tauri · Linux, Windows y macOS · Monocromático · Liquid Glass · Cad
 
 ---
 
-## ¿Qué es Knddle?
+## ¿Qué es Tinta?
 
-Knddle es una app de escritorio que toma un **archivo** (PDF, EPUB, DOCX y más) o un **link** (incluidos sitios hechos con JavaScript) y lo convierte en un ebook pensado para Kindle: con índice, capítulos, portada, notas al pie emergentes y números de página reales. Luego lo **entrega automáticamente**: por USB si el Kindle está conectado, o por correo si no lo está.
+Tinta es una app de escritorio que toma un **archivo** (PDF, EPUB, DOCX y más) o un **link** (incluidos sitios hechos con JavaScript) y lo convierte en un ebook pensado para Kindle: con índice, capítulos, portada, notas al pie emergentes y números de página reales. Luego lo **entrega automáticamente**: por USB si el Kindle está conectado, o por correo si no lo está.
 
 La interfaz tiene solo dos botones, **Insertar** y **Enlace**. Todo lo demás aparece cuando hace falta.
 
@@ -88,7 +88,7 @@ Todo se procesa en tu computador: sin servidores, sin límite de peso y sin subi
 
 Estos son los detalles que hacen que un libro convertido no se distinga de uno de la tienda:
 
-| Detalle | Cómo lo logra Knddle |
+| Detalle | Cómo lo logra Tinta |
 |---|---|
 | Aparece en **Libros**, no en **Documentos** | Metadato `cdeType=EBOK` |
 | Portada visible en la biblioteca | ASIN propio y miniatura copiada a `system/thumbnails` |
@@ -104,20 +104,20 @@ Estos son los detalles que hacen que un libro convertido no se distinga de uno d
 
 ## Formatos de Kindle y el camino hacia KFX
 
-Los libros comprados en Amazon vienen en **KFX**, que trae tipografía mejorada, Page Flip y una maquetación más precisa. Amazon no publica cómo se genera, así que Knddle llega a él por fases:
+Los libros comprados en Amazon vienen en **KFX**, que trae tipografía mejorada, Page Flip y una maquetación más precisa. Amazon no publica cómo se genera, así que Tinta llega a él por fases:
 
 | Fase | Resultado | Fidelidad |
 |---|---|---|
 | **1** | Generador **AZW3 (KF8) nativo en Rust**, con todos los detalles de la tabla anterior | Alta |
-| **2** | **KFX mediante Kindle Previewer**, si lo tienes instalado. Knddle lo detecta y lo usa en segundo plano. No se puede incluir en la app porque su licencia no permite redistribuirlo. | Idéntica |
+| **2** | **KFX mediante Kindle Previewer**, si lo tienes instalado. Tinta lo detecta y lo usa en segundo plano. No se puede incluir en la app porque su licencia no permite redistribuirlo. | Idéntica |
 | **3** | **Generador KFX nativo en Rust**, construido sobre `ion-rs` (la librería oficial de Amazon para el formato Ion) a partir de la estructura documentada por ingeniería inversa. Se valida comparando fragmento por fragmento con la salida de Kindle Previewer. | Idéntica, sin depender de Amazon |
-| Siempre | **Send to Kindle por correo**: Knddle envía un EPUB perfecto y Amazon lo convierte a KFX | Idéntica |
+| Siempre | **Send to Kindle por correo**: Tinta envía un EPUB perfecto y Amazon lo convierte a KFX | Idéntica |
 
 ---
 
 ## Compatibilidad con Kindle
 
-Compatible **desde la 5ª generación en adelante**. Knddle lee el firmware del dispositivo y elige el formato:
+Compatible **desde la 5ª generación en adelante**. Tinta lee el firmware del dispositivo y elige el formato:
 
 | Dispositivo | Formato por USB |
 |---|---|
@@ -146,8 +146,8 @@ flowchart TD
     G -- al conectar el Kindle --> D
 ```
 
-1. **La primera vez** que conectas tu Kindle, Knddle lo identifica y te pide tu correo @kindle.com. Lo guarda en el llavero del sistema, ligado al número de serie del dispositivo.
-2. **Desde entonces**, sueltas un libro y Knddle hace todo lo demás.
+1. **La primera vez** que conectas tu Kindle, Tinta lo identifica y te pide tu correo @kindle.com. Lo guarda en el llavero del sistema, ligado al número de serie del dispositivo.
+2. **Desde entonces**, sueltas un libro y Tinta hace todo lo demás.
 
 ---
 
@@ -171,14 +171,14 @@ Cada fase es un módulo independiente que implementa el trait `Phase`, y cada un
 
 ## Arquitectura
 
-Knddle usa **arquitectura hexagonal** (puertos y adaptadores). El dominio no conoce archivos, red ni dispositivos.
+Tinta usa **arquitectura hexagonal** (puertos y adaptadores). El dominio no conoce archivos, red ni dispositivos.
 
 ```
         ┌──────────── UI (HTML · CSS · JS) ────────────┐
         └──────────── comandos y eventos Tauri ────────┘
                               │
               ┌───────────────▼───────────────┐
-              │          knddle-core          │
+              │          tinta-core          │
               │  Book · Pipeline · Phase      │
               └──┬──────────┬──────────┬──────┘
           puertos│ Source   │ Packager │ Delivery · DeviceWatcher
@@ -194,10 +194,10 @@ Knddle usa **arquitectura hexagonal** (puertos y adaptadores). El dominio no con
 ## Estructura del repositorio
 
 ```
-knddle/
+tinta/
 ├── crates/
-│   ├── knddle-core/        # Dominio: modelo del libro, pipeline y fases
-│   └── knddle-kindle/      # Perfiles de modelos Kindle
+│   ├── tinta-core/        # Dominio: modelo del libro, pipeline y fases
+│   └── tinta-kindle/      # Perfiles de modelos Kindle
 ├── app/
 │   ├── src-tauri/          # Shell Tauri: comandos y composición de dependencias
 │   └── ui/                 # Interfaz
@@ -266,8 +266,8 @@ En Windows y macOS solo hacen falta [Rust](https://rustup.rs) y [Node.js](https:
 ### Ejecutar
 
 ```bash
-git clone https://github.com/<usuario>/knddle.git
-cd knddle
+git clone https://github.com/joansebastianromanatavera-pixel/Tinta.git
+cd tinta
 
 cargo test --workspace          # tests del núcleo
 
@@ -442,7 +442,7 @@ Se usa [Conventional Commits](https://www.conventionalcommits.org/): `feat(core)
 
 ## Uso responsable
 
-Knddle es para uso personal con documentos propios o con libros que una página ofrece gratis de forma legítima. No elimina DRM, no evade muros de pago ni inicios de sesión, y no debe usarse para redistribuir contenido protegido.
+Tinta es para uso personal con documentos propios o con libros que una página ofrece gratis de forma legítima. No elimina DRM, no evade muros de pago ni inicios de sesión, y no debe usarse para redistribuir contenido protegido.
 
 ---
 

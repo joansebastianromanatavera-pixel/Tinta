@@ -1,5 +1,5 @@
-use knddle_kindle::{find, BookFormat, Connection, KfxSupport, CATALOG, EMAIL_FORMAT};
 use std::collections::HashSet;
+use tinta_kindle::{find, BookFormat, Connection, KfxSupport, CATALOG, EMAIL_FORMAT};
 
 #[test]
 fn catalog_starts_at_fifth_generation() {

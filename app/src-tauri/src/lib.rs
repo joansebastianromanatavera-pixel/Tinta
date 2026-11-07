@@ -1,8 +1,8 @@
 //! Composition root: wires the core crates into Tauri commands.
 
-use knddle_core::phases::{DropEmptyChapters, MarkOpeningParagraphs, TypographyCleanup};
-use knddle_core::Pipeline;
-use knddle_kindle::{KindleModel, CATALOG};
+use tinta_core::phases::{DropEmptyChapters, MarkOpeningParagraphs, TypographyCleanup};
+use tinta_core::Pipeline;
+use tinta_kindle::{KindleModel, CATALOG};
 
 /// The conversion pipeline with every phase implemented so far.
 fn conversion_pipeline() -> Pipeline {
@@ -31,5 +31,5 @@ pub fn run() {
         .plugin(tauri_plugin_dialog::init())
         .invoke_handler(tauri::generate_handler![pipeline_phases, kindle_catalog])
         .run(tauri::generate_context!())
-        .expect("failed to start Knddle");
+        .expect("failed to start Tinta");
 }

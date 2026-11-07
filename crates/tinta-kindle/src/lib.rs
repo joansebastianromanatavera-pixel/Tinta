@@ -1,4 +1,4 @@
-//! Catalog of Kindle e-readers supported by Knddle (5th generation onwards)
+//! Catalog of Kindle e-readers supported by Tinta (5th generation onwards)
 //! and the rules that pick the best format and image size for each one.
 //!
 //! Screen data comes from Amazon's published specifications. Each entry

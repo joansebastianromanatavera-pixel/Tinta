@@ -1,4 +1,4 @@
-# Knddle — guía del proyecto
+# Tinta — guía del proyecto
 
 App de escritorio que convierte libros (archivos y links web) en ebooks que en el Kindle se ven **como un libro comprado**, y los entrega solos al dispositivo. Autor: Sebastian. Uso personal, solo contenido propio o gratuito y legítimo. **Nunca** se toca DRM.
 
@@ -35,9 +35,9 @@ Se diseña para **WebKitGTK**, el motor más débil, y se prueba en NVIDIA. Regl
 
 ```
 crates/
-  knddle-core/     dominio puro: Book, Chapter, Block, Metadata + pipeline y fases (sin IO)
-  knddle-kindle/   perfiles de modelos Kindle (resolución, ppi, formato, MTP/USB)
-  (próximos) knddle-pdf, knddle-web, knddle-azw3, knddle-epub, knddle-device, knddle-delivery
+  tinta-core/     dominio puro: Book, Chapter, Block, Metadata + pipeline y fases (sin IO)
+  tinta-kindle/   perfiles de modelos Kindle (resolución, ppi, formato, MTP/USB)
+  (próximos) tinta-pdf, tinta-web, tinta-azw3, tinta-epub, tinta-device, tinta-delivery
 app/
   src-tauri/       composición de dependencias + comandos Tauri
   ui/              index.html, styles/ (tokens, motion), components/ (un módulo por componente)

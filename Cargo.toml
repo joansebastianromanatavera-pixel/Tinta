@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["crates/knddle-core", "crates/knddle-kindle", "app/src-tauri"]
+members = ["crates/tinta-core", "crates/tinta-kindle", "app/src-tauri"]
 
 [workspace.package]
 version = "0.1.0"

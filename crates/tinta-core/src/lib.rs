@@ -1,4 +1,4 @@
-//! Knddle core: the book domain model and the phased conversion pipeline.
+//! Tinta core: the book domain model and the phased conversion pipeline.
 //!
 //! This crate is pure domain logic: no file, network or device IO.
 

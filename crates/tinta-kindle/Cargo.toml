@@ -1,5 +1,5 @@
 [package]
-name = "knddle-kindle"
+name = "tinta-kindle"
 description = "Kindle device catalog: screens, connections and supported formats"
 version.workspace = true
 edition.workspace = true

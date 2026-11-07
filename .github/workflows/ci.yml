@@ -54,4 +54,4 @@ jobs:
           if command -v apt-get; then apt-get update && apt-get install -y gcc git curl ca-certificates; fi
           curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal
       - uses: actions/checkout@v4
-      - run: ~/.cargo/bin/cargo test -p knddle-core -p knddle-kindle
+      - run: ~/.cargo/bin/cargo test -p tinta-core -p tinta-kindle

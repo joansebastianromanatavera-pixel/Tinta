@@ -1641,33 +1641,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "knddle"
-version = "0.1.0"
-dependencies = [
- "knddle-core",
- "knddle-kindle",
- "serde",
- "tauri",
- "tauri-build",
- "tauri-plugin-dialog",
-]
-
-[[package]]
-name = "knddle-core"
-version = "0.1.0"
-dependencies = [
- "serde",
- "thiserror 2.0.21",
-]
-
-[[package]]
-name = "knddle-kindle"
-version = "0.1.0"
-dependencies = [
- "serde",
-]
-
-[[package]]
 name = "libappindicator"
 version = "0.9.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3417,6 +3390,33 @@ checksum = "7e689342a48d2ea927c87ea50cabf8594854bf940e9310208848d680d668ed85"
 dependencies = [
  "num-conv",
  "time-core",
+]
+
+[[package]]
+name = "tinta"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "tauri",
+ "tauri-build",
+ "tauri-plugin-dialog",
+ "tinta-core",
+ "tinta-kindle",
+]
+
+[[package]]
+name = "tinta-core"
+version = "0.1.0"
+dependencies = [
+ "serde",
+ "thiserror 2.0.21",
+]
+
+[[package]]
+name = "tinta-kindle"
+version = "0.1.0"
+dependencies = [
+ "serde",
 ]
 
 [[package]]

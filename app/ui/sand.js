@@ -127,7 +127,7 @@ export function initSand(canvas) {
   try {
     program = createProgram(gl);
   } catch (error) {
-    console.error("Knddle sand:", error);
+    console.error("Tinta sand:", error);
     return false;
   }
   gl.useProgram(program);

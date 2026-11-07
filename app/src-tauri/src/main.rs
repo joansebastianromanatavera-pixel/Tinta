@@ -4,7 +4,7 @@
 fn main() {
     #[cfg(target_os = "linux")]
     configure_linux_graphics();
-    knddle_app::run();
+    tinta_app::run();
 }
 
 /// `WebKitGTK` crashes with "Error 71 (Protocol error)" on NVIDIA + Wayland

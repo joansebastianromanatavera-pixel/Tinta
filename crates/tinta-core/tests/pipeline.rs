@@ -1,6 +1,6 @@
-use knddle_core::phases::{DropEmptyChapters, MarkOpeningParagraphs, TypographyCleanup};
-use knddle_core::{Block, Book, Chapter, Metadata, Part, Phase, PhaseError, Pipeline, Progress};
 use std::cell::RefCell;
+use tinta_core::phases::{DropEmptyChapters, MarkOpeningParagraphs, TypographyCleanup};
+use tinta_core::{Block, Book, Chapter, Metadata, Part, Phase, PhaseError, Pipeline, Progress};
 
 fn chapter(title: &str, blocks: Vec<Block>) -> Chapter {
     Chapter {
