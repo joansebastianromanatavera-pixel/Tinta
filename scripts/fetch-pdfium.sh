@@ -42,26 +42,26 @@ library_path() {
 }
 
 platform="${1:-$(detect_platform)}"
-library="$(library_path "$platform")"
-stamp="$destination/.version-$PDFIUM_VERSION-$platform"
+library="$(library_path "${platform}")"
+stamp="${destination}/.version-${PDFIUM_VERSION}-${platform}"
 
-if [[ -f "$stamp" ]]; then
-  echo "pdfium $PDFIUM_VERSION ($platform) ya está en $destination"
+if [[ -f "${stamp}" ]]; then
+  echo "pdfium ${PDFIUM_VERSION} (${platform}) ya está en ${destination}"
   exit 0
 fi
 
 workdir="$(mktemp -d)"
-trap 'rm -rf "$workdir"' EXIT
+trap 'rm -rf "${workdir}"' EXIT
 
-echo "Descargando pdfium $PDFIUM_VERSION para $platform…"
+echo "Descargando pdfium ${PDFIUM_VERSION} para ${platform}…"
 curl --fail --silent --show-error --location \
-  "$RELEASES/chromium%2F$PDFIUM_VERSION/pdfium-$platform.tgz" \
-  --output "$workdir/pdfium.tgz"
-tar -xzf "$workdir/pdfium.tgz" -C "$workdir"
+  "${RELEASES}/chromium%2F${PDFIUM_VERSION}/pdfium-${platform}.tgz" \
+  --output "${workdir}/pdfium.tgz"
+tar -xzf "${workdir}/pdfium.tgz" -C "${workdir}"
 
-rm -rf "$destination"
-mkdir -p "$destination"
-cp "$workdir/$library" "$destination/"
-cp "$workdir/LICENSE" "$destination/LICENSE.pdfium" 2>/dev/null || true
-touch "$stamp"
-echo "Listo: $destination/$(basename "$library")"
+rm -rf "${destination}"
+mkdir -p "${destination}"
+cp "${workdir}/${library}" "${destination}/"
+cp "${workdir}/LICENSE" "${destination}/LICENSE.pdfium" 2>/dev/null || true
+touch "${stamp}"
+echo "Listo: ${destination}/$(basename "${library}")"
