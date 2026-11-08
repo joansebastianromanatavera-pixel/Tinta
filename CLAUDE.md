@@ -14,7 +14,7 @@ Lema: **cada detalle, hasta el más mínimo, importa.** Quince funciones impecab
 | Concurrencia | `tokio` + `rayon` |
 | PDF | `pdfium-render` (binarios por sistema incluidos) |
 | Web con JS | ventana oculta del propio webview de Tauri (no se descarga Chromium) + `readability` |
-| EPUB | `epub-builder` |
+| EPUB | empaquetador propio sobre `zip` (control total de nav, landmarks, guía y CSS; el AZW3 reutiliza su XHTML) |
 | AZW3/KF8 | generador **nativo en Rust** (sin Calibre ni Python) |
 | KFX | fase 2: Kindle Previewer si está instalado (no se puede redistribuir); fase 3: generador nativo sobre `ion-rs` |
 | Correo | `lettre` |
@@ -37,7 +37,9 @@ Se diseña para **WebKitGTK**, el motor más débil, y se prueba en NVIDIA. Regl
 crates/
   tinta-core/     dominio puro: Book, Chapter, Block, Metadata + pipeline y fases (sin IO)
   tinta-kindle/   perfiles de modelos Kindle (resolución, ppi, formato, MTP/USB)
-  (próximos) tinta-pdf, tinta-web, tinta-azw3, tinta-epub, tinta-device, tinta-delivery
+  tinta-pdf/      adaptador pdfium → líneas posicionadas → Book (lógica pura, testeada sin pdfium)
+  tinta-epub/     empaquetador EPUB 3 para Kindle
+  (próximos) tinta-web, tinta-azw3, tinta-device, tinta-delivery
 app/
   src-tauri/       composición de dependencias + comandos Tauri
   ui/              index.html, styles/ (tokens, motion), components/ (un módulo por componente)
@@ -157,8 +159,14 @@ Una función entra en la 1.0 solo cuando cumple todo esto:
 ## Comandos
 
 ```bash
+scripts/fetch-pdfium.sh   # una vez: pdfium en vendor/ (los tests de PDF lo necesitan)
 cargo test --workspace
 cargo clippy --workspace --all-targets -- -D warnings
 cargo fmt --all
 cd app && npm install && npm run tauri dev   # o `npm run dev` para ver solo la interfaz en http://localhost:1420
 ```
+
+## Notas de entorno
+
+- VSCodium en Flatpak no ve WebKitGTK ni `gh`: compilar la app y hacer push desde una terminal del sistema (o `flatpak-spawn --host`).
+- pdfium se fija a `chromium/8125` porque `pdfium-render` compila contra esa API (feature `pdfium_8125`): cambiar ambos juntos.

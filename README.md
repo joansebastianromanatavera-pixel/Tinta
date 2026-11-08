@@ -197,7 +197,11 @@ Tinta usa **arquitectura hexagonal** (puertos y adaptadores). El dominio no cono
 tinta/
 ├── crates/
 │   ├── tinta-core/        # Dominio: modelo del libro, pipeline y fases
-│   └── tinta-kindle/      # Perfiles de modelos Kindle
+│   ├── tinta-kindle/      # Perfiles de modelos Kindle
+│   ├── tinta-pdf/         # Lectura de PDF con pdfium y reconstrucción del libro
+│   └── tinta-epub/        # Empaquetador EPUB 3 listo para Kindle
+├── scripts/
+│   └── fetch-pdfium.sh     # Descarga el motor de PDF (fijado a chromium/8125)
 ├── app/
 │   ├── src-tauri/          # Shell Tauri: comandos y composición de dependencias
 │   └── ui/                 # Interfaz
@@ -220,7 +224,7 @@ tinta/
 | Concurrencia | `tokio` + `rayon` |
 | PDF | `pdfium-render` |
 | Web con JavaScript | Webview de Tauri en ventana oculta + `readability` |
-| EPUB | `epub-builder` |
+| EPUB | empaquetador propio sobre `zip`, validado con epubcheck en CI |
 | AZW3 / KF8 | Generador propio en Rust |
 | KFX | Kindle Previewer (fase 2) y `ion-rs` (fase 3) |
 | Imágenes | `image` + `fast_image_resize` |
@@ -267,9 +271,15 @@ En Windows y macOS solo hacen falta [Rust](https://rustup.rs) y [Node.js](https:
 
 ```bash
 git clone https://github.com/joansebastianromanatavera-pixel/Tinta.git
-cd tinta
+cd Tinta
 
-cargo test --workspace          # tests del núcleo
+scripts/fetch-pdfium.sh         # motor de PDF en vendor/pdfium (una sola vez)
+cargo test --workspace          # todos los tests
+
+# Herramientas sin interfaz
+cargo run --release -p tinta-epub --example convert -- libro.pdf    # PDF → EPUB
+cargo run --release -p tinta-pdf --example dump -- libro.pdf        # estructura detectada
+cargo run --release -p tinta-pdf --example dump -- libro.pdf --page 12   # líneas en bruto
 
 cd app
 npm install
@@ -404,8 +414,12 @@ Se usa [Conventional Commits](https://www.conventionalcommits.org/): `feat(core)
   - [x] Perfiles de modelos Kindle
   - [x] Tokens de diseño y liquid glass
 - [ ] **Iteración 1: PDF → AZW3**
-  - [ ] Extracción con pdfium
-  - [ ] Estructura e índice de dos niveles
+  - [x] Extracción con pdfium (párrafos, encabezados y pies, letra capital)
+  - [x] Estructura e índice de dos niveles
+  - [x] Detección de idioma y validación
+  - [x] EPUB 3 listo para Kindle (validado con epubcheck)
+  - [x] Conversión desde la app con progreso real y botón Guardar
+  - [ ] Notas al pie emergentes e imágenes
   - [ ] Generador AZW3 nativo (EBOK, ASIN, APNX, miniatura)
 - [ ] **Iteración 2: interfaz**
   - [ ] Insertar / Enlace con arrastrar y soltar
