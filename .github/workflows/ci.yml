@@ -55,7 +55,8 @@ jobs:
           if command -v dnf; then dnf install -y gcc git curl tar gzip; fi
           if command -v pacman; then pacman -Syu --noconfirm gcc git curl; fi
           if command -v apt-get; then apt-get update && apt-get install -y gcc git curl ca-certificates; fi
-          curl -sSf https://sh.rustup.rs | sh -s -- -y --profile minimal
+          curl --proto '=https' --tlsv1.2 --retry 5 --retry-all-errors -sSf https://sh.rustup.rs -o rustup.sh
+          sh rustup.sh -y --profile minimal
       - uses: actions/checkout@v5
       - run: scripts/fetch-pdfium.sh
       - run: ~/.cargo/bin/cargo test -p tinta-core -p tinta-kindle -p tinta-pdf
