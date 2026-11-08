@@ -59,3 +59,28 @@ jobs:
       - uses: actions/checkout@v5
       - run: scripts/fetch-pdfium.sh
       - run: ~/.cargo/bin/cargo test -p tinta-core -p tinta-kindle -p tinta-pdf
+
+  epubcheck:
+    name: EPUB · epubcheck
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 21
+      - name: PDF engine
+        run: scripts/fetch-pdfium.sh
+      - name: epubcheck
+        run: |
+          curl -sSL -o epubcheck.zip "https://github.com/w3c/epubcheck/releases/download/v${EPUBCHECK_VERSION}/epubcheck-${EPUBCHECK_VERSION}.zip"
+          unzip -q epubcheck.zip
+        env:
+          EPUBCHECK_VERSION: "5.2.1"
+      - name: Convert a real PDF and validate the EPUB
+        run: |
+          curl -sSL -o novel.pdf https://www.planetebook.com/free-ebooks/the-picture-of-dorian-gray.pdf
+          cargo run --release -p tinta-epub --example convert -- novel.pdf novel.epub
+          java -jar epubcheck-5.2.1/epubcheck.jar novel.epub
