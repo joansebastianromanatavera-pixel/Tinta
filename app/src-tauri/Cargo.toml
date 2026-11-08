@@ -18,8 +18,11 @@ tauri-build = { version = "2", features = [] }
 tauri = { version = "2", features = [] }
 tauri-plugin-dialog = "2"
 serde.workspace = true
+thiserror.workspace = true
 tinta-core = { path = "../../crates/tinta-core" }
 tinta-kindle = { path = "../../crates/tinta-kindle" }
+tinta-pdf = { path = "../../crates/tinta-pdf" }
+tinta-epub = { path = "../../crates/tinta-epub" }
 
 [lints]
 workspace = true
