@@ -1,0 +1,115 @@
+/*
+ * Tinta — styles for e-ink readers.
+ *
+ * No fonts and no fixed sizes: the reader's font (Bookerly and friends),
+ * size, line spacing and margins always win. Lengths are in em so every
+ * detail scales with the size the reader picks.
+ */
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Chapter title, sunk a little below the top of the page. */
+h1 {
+  margin: 2.5em 0 2em;
+  font-size: 1.5em;
+  font-weight: normal;
+  line-height: 1.2;
+  text-align: center;
+  hyphens: none;
+  -webkit-hyphens: none;
+  adobe-hyphenate: none;
+}
+
+/* Part title page. */
+h1.part {
+  margin-top: 35%;
+  font-size: 1.7em;
+  letter-spacing: 0.04em;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 1.6em 0 0.8em;
+  font-size: 1em;
+  line-height: 1.3;
+  text-align: left;
+  page-break-after: avoid;
+  break-after: avoid;
+  hyphens: none;
+  -webkit-hyphens: none;
+  adobe-hyphenate: none;
+}
+
+h2 {
+  font-size: 1.15em;
+  font-weight: bold;
+}
+
+h3,
+h4,
+h5,
+h6 {
+  font-style: italic;
+  font-weight: normal;
+}
+
+p {
+  margin: 0;
+  text-indent: 1.2em;
+  text-align: justify;
+  orphans: 2;
+  widows: 2;
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  adobe-hyphenate: auto;
+}
+
+/* First paragraph of a chapter: no indent, drop cap and small caps. */
+p.opening {
+  text-indent: 0;
+}
+
+.drop-cap {
+  float: left;
+  margin: 0.06em 0.08em 0 0;
+  font-size: 3.2em;
+  line-height: 0.85;
+}
+
+.lead-in {
+  font-variant: small-caps;
+  letter-spacing: 0.03em;
+}
+
+/* No indent right after a heading or a quotation, as in print. */
+h2 + p,
+h3 + p,
+h4 + p,
+h5 + p,
+h6 + p,
+blockquote + p {
+  text-indent: 0;
+}
+
+blockquote {
+  margin: 1em 1.5em;
+}
+
+blockquote p {
+  text-indent: 0;
+}
+
+figure {
+  margin: 1em 0;
+  text-align: center;
+}
+
+img {
+  max-width: 100%;
+}

@@ -1,6 +1,6 @@
 [workspace]
 resolver = "2"
-members = ["crates/tinta-core", "crates/tinta-kindle", "crates/tinta-pdf", "app/src-tauri"]
+members = ["crates/tinta-core", "crates/tinta-kindle", "crates/tinta-pdf", "crates/tinta-epub", "app/src-tauri"]
 
 [workspace.package]
 version = "0.1.0"
