@@ -2,7 +2,7 @@
 
 use crate::language;
 use crate::model::{Block, Book};
-use crate::pipeline::{Phase, PhaseError};
+use crate::pipeline::{Phase, PhaseError, Pipeline};
 use crate::typography;
 
 /// Deep typographic cleanup of every text block (phase 6).
@@ -115,4 +115,16 @@ impl Phase for Validate {
         }
         Ok(book)
     }
+}
+
+/// Every phase, in the order a conversion runs them: empty chapters go
+/// first so nothing is cleaned in vain, the text is cleaned before the
+/// opening paragraphs are marked, and validation has the last word.
+pub fn standard_pipeline() -> Pipeline {
+    Pipeline::new()
+        .with(DropEmptyChapters)
+        .with(TypographyCleanup)
+        .with(MarkOpeningParagraphs)
+        .with(DetectLanguage)
+        .with(Validate)
 }

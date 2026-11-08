@@ -173,3 +173,46 @@ fn fails_when_book_has_no_content() {
         .apply(book(vec![chapter("vacío", vec![])]))
         .is_err());
 }
+
+#[test]
+fn standard_pipeline_cleans_before_marking_and_validates_last() {
+    let names = tinta_core::phases::standard_pipeline().phase_names();
+
+    assert_eq!(
+        names,
+        [
+            "Capítulos vacíos",
+            "Limpieza tipográfica",
+            "Inicio de capítulos",
+            "Idioma",
+            "Validación"
+        ]
+    );
+}
+
+#[test]
+fn standard_pipeline_turns_raw_pdf_text_into_a_finished_book() {
+    let raw = book(vec![
+        chapter("Vacío", vec![]),
+        chapter(
+            "Uno",
+            vec![Block::paragraph(
+                "En un lugar de la Man-\ncha, de cuyo nombre no quiero acor-\ndarme, no ha mucho tiempo que vivía un hidalgo.",
+            )],
+        ),
+    ]);
+
+    let book = tinta_core::phases::standard_pipeline()
+        .run(raw, &|_| {})
+        .unwrap();
+
+    assert_eq!(book.chapter_count(), 1);
+    assert_eq!(
+        book.parts[0].chapters[0].blocks,
+        [Block::Paragraph {
+            text: "En un lugar de la Mancha, de cuyo nombre no quiero acordarme, no ha mucho tiempo que vivía un hidalgo.".into(),
+            opening: true,
+        }]
+    );
+    assert_eq!(book.metadata.language.as_deref(), Some("es"));
+}
