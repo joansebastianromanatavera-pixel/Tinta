@@ -42,3 +42,26 @@ export function pressable(button) {
   button.addEventListener("pointerup", release);
   button.addEventListener("pointerleave", release);
 }
+
+/** Text an element is fading towards, while a crossfade is running. */
+const pendingText = new WeakMap();
+
+/**
+ * Swaps an element's text with a quick fade out and in. Calls made while a
+ * fade runs only update the target, so fast-changing stages never queue up:
+ * the element always lands on the latest text.
+ */
+export async function crossfadeText(element, text) {
+  if (pendingText.has(element)) {
+    pendingText.set(element, text);
+    return;
+  }
+  if (element.textContent === text) return;
+  pendingText.set(element, text);
+  while (element.textContent !== pendingText.get(element)) {
+    await move(element, { opacity: 0 }, springs.snappy);
+    element.textContent = pendingText.get(element);
+    await move(element, { opacity: 1 }, springs.soft);
+  }
+  pendingText.delete(element);
+}

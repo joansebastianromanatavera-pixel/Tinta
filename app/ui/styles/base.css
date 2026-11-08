@@ -29,6 +29,10 @@ input {
   color: inherit;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 :focus-visible {
   outline: 2px solid var(--focus-ring);
   outline-offset: 3px;
@@ -269,35 +273,121 @@ input {
   color: var(--text-secondary);
 }
 
-.phases {
-  list-style: none;
-  padding: 0;
-  margin-top: var(--space-5);
-  display: grid;
-  gap: var(--space-3);
-}
-
-.phases li {
+/* Conversion status: ring, current stage and details */
+.status {
   display: flex;
   align-items: center;
-  gap: var(--space-3);
-  font-size: var(--text-s);
-  color: var(--text-secondary);
+  gap: var(--space-4);
+  margin-top: var(--space-5);
 }
 
-.phases li::before {
-  content: "";
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--text-tertiary);
+.status__text {
+  min-width: 0;
+  flex: 1;
+}
+
+.status__label {
+  font-weight: var(--weight-medium);
+}
+
+.status__detail {
+  margin-top: 2px;
+  color: var(--text-secondary);
+  font-size: var(--text-s);
+}
+
+.status__detail:empty {
+  display: none;
+}
+
+/* Two half-rings that only rotate (see progress-ring.js). */
+.ring {
+  position: relative;
+  width: var(--ring-size);
+  height: var(--ring-size);
   flex: none;
 }
 
-.phases__caption {
-  margin-top: var(--space-5);
+.ring__arcs,
+.ring__track {
+  position: absolute;
+  inset: 0;
+}
+
+.ring__track {
+  border: var(--ring-stroke) solid var(--ring-track);
+  border-radius: 50%;
+}
+
+.ring__half {
+  position: absolute;
+  top: 0;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.ring__half--right {
+  right: 0;
+}
+
+.ring__half--left {
+  left: 0;
+}
+
+.ring__arc {
+  position: absolute;
+  top: 0;
+  width: 200%;
+  height: 100%;
+  border: var(--ring-stroke) solid transparent;
+  border-radius: 50%;
+  transform: rotate(45deg);
+  will-change: transform;
+}
+
+.ring__half--right .ring__arc {
+  right: 0;
+  border-bottom-color: var(--ring-fill);
+  border-left-color: var(--ring-fill);
+}
+
+.ring__half--left .ring__arc {
+  left: 0;
+  border-top-color: var(--ring-fill);
+  border-right-color: var(--ring-fill);
+}
+
+.ring__center {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+}
+
+.ring__value {
+  display: grid;
+  place-items: center;
   font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  font-variant-numeric: tabular-nums;
+}
+
+.ring__icon {
+  width: var(--ring-icon-size);
+  height: var(--ring-icon-size);
+  opacity: 0;
+}
+
+.card__note {
+  margin-top: var(--space-4);
   color: var(--text-tertiary);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
+  font-size: var(--text-xs);
+  line-height: var(--leading-relaxed);
+}
+
+.card__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-5);
 }

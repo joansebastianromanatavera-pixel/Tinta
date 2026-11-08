@@ -56,6 +56,7 @@
   --weight-medium: 520;
   --weight-semibold: 600;
   --tracking-tight: -0.026em;
+  --leading-relaxed: 1.5;
 
   /* Layout */
   --titlebar-height: 44px;
@@ -63,4 +64,11 @@
   --panel-width: 440px;
   --card-width: 440px;
   --link-field-width: 360px;
+  --ring-size: 52px;
+  --ring-stroke: 2px;
+  --ring-icon-size: 18px;
+
+  /* Progress ring */
+  --ring-track: rgb(255 255 255 / 0.12);
+  --ring-fill: var(--text);
 }

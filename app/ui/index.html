@@ -75,8 +75,32 @@
               <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4.5 4.5l7 7M11.5 4.5l-7 7" /></svg>
             </button>
           </div>
-          <p class="phases__caption">Así se convertirá</p>
-          <ol class="phases" id="phases"></ol>
+          <div class="status">
+            <div class="ring" id="ring" role="progressbar" aria-label="Progreso de la conversión" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
+              <div class="ring__arcs" data-ring-arcs>
+                <div class="ring__track"></div>
+                <div class="ring__half ring__half--right"><div class="ring__arc" data-ring-right></div></div>
+                <div class="ring__half ring__half--left"><div class="ring__arc" data-ring-left></div></div>
+              </div>
+              <span class="ring__center ring__value" data-ring-value>0</span>
+              <svg class="ring__center ring__icon" data-ring-done viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3.5 8.5l3 3 6-7" /></svg>
+              <svg class="ring__center ring__icon" data-ring-error viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M8 4v5M8 12h.01" /></svg>
+            </div>
+            <div class="status__text">
+              <div class="status__label" id="status-label"></div>
+              <div class="status__detail" id="status-detail"></div>
+            </div>
+          </div>
+          <p class="card__note" id="card-note" hidden></p>
+          <div class="card__actions" id="card-actions" hidden>
+            <button class="button pill squircle" data-glass="pill" id="card-again" type="button">
+              <span>Probar otro</span>
+            </button>
+            <button class="button pill pill--primary squircle" data-glass="pill" id="card-save" type="button">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 2.5v8M4.5 7l3.5 3.5L11.5 7M3 13.5h10" /></svg>
+              <span id="card-save-label">Guardar</span>
+            </button>
+          </div>
         </div>
       </article>
     </main>
