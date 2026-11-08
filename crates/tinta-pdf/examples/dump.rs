@@ -61,7 +61,10 @@ fn main() {
 
 fn print_page(library: &PdfiumLibrary, path: &Path, number: usize) {
     let document = extract(library, path, &|_, _| {}).expect("readable PDF");
-    let page = &document.pages[number - 1];
+    let Some(page) = number.checked_sub(1).and_then(|i| document.pages.get(i)) else {
+        eprintln!("El PDF tiene {} páginas.", document.pages.len());
+        std::process::exit(2);
+    };
     println!(
         "Página {number}: {}×{} pt, {} imágenes",
         page.width, page.height, page.image_count
