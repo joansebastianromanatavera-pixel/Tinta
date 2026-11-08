@@ -229,6 +229,14 @@ fn ncx_mirrors_the_two_levels_for_older_readers() {
 }
 
 #[test]
+fn the_contents_page_is_in_the_spine_out_of_the_reading_flow() {
+    let opf = Epub::of(&novel()).text("OEBPS/content.opf");
+
+    assert!(opf.contains(r#"<spine toc="ncx">
+<itemref idref="nav" linear="no"/>"#), "{opf}");
+}
+
+#[test]
 fn spine_reads_part_pages_and_chapters_in_order() {
     let opf = Epub::of(&novel()).text("OEBPS/content.opf");
 

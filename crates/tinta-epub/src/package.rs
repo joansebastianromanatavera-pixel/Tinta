@@ -25,6 +25,7 @@ pub(crate) fn opf(
 <item id="style" href="style.css" media-type="text/css"/>
 {manifest}</manifest>
 <spine toc="ncx">
+<itemref idref="nav" linear="no"/>
 {spine}</spine>
 <guide>
 <reference type="toc" title="{TOC_LABEL}" href="nav.xhtml"/>
